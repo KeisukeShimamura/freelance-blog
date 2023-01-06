@@ -7,8 +7,16 @@ const links = [
     path: '/',
   },
   {
+    label: '記事一覧',
+    path: '/posts',
+  },
+  {
     label: '著者について',
     path: '/about',
+  },
+  {
+    label: 'お問い合わせ',
+    path: '/contact',
   },
 ]
 const Footer = () => {
