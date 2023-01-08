@@ -5,17 +5,20 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import { marked } from 'marked'
 import Image from 'next/image'
+import { NextSeo } from 'next-seo'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
 ) => {
   const file = fs.readFileSync(`posts/${context.params?.slug}.md`, 'utf-8')
   const { data, content } = matter(file)
+
   const post = {
     matter: data as Matter,
     slug: context.params?.slug,
     content,
   } as Post
+
   return {
     props: {
       post,
@@ -39,6 +42,24 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Post = ({ post }: { post: Post }) => {
   return (
     <>
+      <NextSeo
+        title={post.matter.title}
+        description={post.matter.description}
+        openGraph={{
+          type: 'website',
+          url: `http:localhost:3000/posts/${post.slug}`,
+          title: post.matter.title,
+          description: post.matter.description,
+          images: [
+            {
+              url: `https://localhost:3000/${post.matter.image}`,
+              width: 1200,
+              height: 700,
+              alt: post.matter.title,
+            },
+          ],
+        }}
+      />
       <main className="prose prose-lg max-w-none">
         <div className="border">
           <Image
