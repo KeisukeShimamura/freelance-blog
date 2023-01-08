@@ -1,6 +1,7 @@
 export type Post = {
   slug: string
   matter: Matter
+  content: string
 }
 
 export type Matter = {
