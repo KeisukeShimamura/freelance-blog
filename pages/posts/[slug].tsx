@@ -3,6 +3,8 @@ import React from 'react'
 import { Matter, Post } from '../../types/post'
 import fs from 'fs'
 import matter from 'gray-matter'
+import { marked } from 'marked'
+import Image from 'next/image'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -37,9 +39,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Post = ({ post }: { post: Post }) => {
   return (
     <>
-      <main>
-        <h1>{post.matter.title}</h1>
-        <p>{post.content}</p>
+      <main className="prose prose-lg max-w-none">
+        <div className="border">
+          <Image
+            src={`/${post.matter.image}`}
+            width={1200}
+            height={700}
+            alt={post.matter.title}
+          />
+        </div>
+        <h1 className="mt-12">{post.matter.title}</h1>
+        <div dangerouslySetInnerHTML={{ __html: marked(post.content) }}></div>
       </main>
     </>
   )
