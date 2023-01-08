@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import fs from 'fs'
 import matter from 'gray-matter'
-import Link from 'next/link'
 import { Matter, Post } from '../types/post'
 import PostItemCard from '../components/post-item-card'
 
@@ -18,9 +17,13 @@ export const getStaticProps: GetStaticProps<{ posts: Post[] }> = () => {
       content,
     }
   })
+
+  const sortedPosts = posts.sort((post1, post2) =>
+    new Date(post1.matter.date) > new Date(post2.matter.date) ? -1 : 1
+  )
   return {
     props: {
-      posts,
+      posts: sortedPosts,
     },
   }
 }
@@ -35,7 +38,7 @@ export default function Home({ posts }: { posts: Post[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 gap-4">
           {posts.map((post) => (
             <PostItemCard key={post.slug} post={post} />
           ))}

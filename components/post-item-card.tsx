@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -15,7 +16,9 @@ const PostItemCard = ({ post }: { post: Post }) => {
         />
         <div className="p-4">
           <h2>{post.matter.title}</h2>
-          <p className="text-slate-500 text-sm">{post.matter.date}</p>
+          <p className="text-slate-500 text-sm">
+            {format(new Date(post.matter.date), 'yyyy年MM月dd日')}
+          </p>
         </div>
       </div>
     </Link>
