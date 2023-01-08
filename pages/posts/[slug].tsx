@@ -12,6 +12,7 @@ import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import remarkToc from 'remark-toc'
 import rehypeSlug from 'rehype-slug'
+import remarkPrism from 'remark-prism'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -21,6 +22,9 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 
   const result = await unified()
     .use(remarkParse)
+    .use(remarkPrism, {
+      plugins: ['line-numbers'],
+    })
     .use(remarkToc, {
       heading: '目次',
     })
