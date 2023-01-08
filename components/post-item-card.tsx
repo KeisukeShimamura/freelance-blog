@@ -5,6 +5,7 @@ import React from 'react'
 import { Post } from '../types/post'
 
 const PostItemCard = ({ post }: { post: Post }) => {
+  // format(new Date(post.matter.date), 'yyyy年MM月dd日')
   return (
     <Link href={`/posts/${post.slug}`}>
       <div className="border rounded-lg shadow">
@@ -16,9 +17,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
         />
         <div className="p-4">
           <h2>{post.matter.title}</h2>
-          <p className="text-slate-500 text-sm">
-            {format(new Date(post.matter.date), 'yyyy年MM月dd日')}
-          </p>
+          <p className="text-slate-500 text-sm">{post.matter.date}</p>
         </div>
       </div>
     </Link>

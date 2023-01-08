@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-10">
+      <header className="sticky top-0 z-10 bg-white">
         <div className="flex items-center h-14 border-b container">
           <button className="p-2 mr-1" onClick={openModal}>
             <Bars3Icon className="w-6 h-6" />
