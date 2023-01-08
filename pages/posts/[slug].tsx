@@ -6,6 +6,10 @@ import matter from 'gray-matter'
 import { marked } from 'marked'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import rehypeStringify from 'rehype-stringify'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -13,10 +17,16 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   const file = fs.readFileSync(`posts/${context.params?.slug}.md`, 'utf-8')
   const { data, content } = matter(file)
 
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeStringify)
+    .process(content)
+
   const post = {
     matter: data as Matter,
     slug: context.params?.slug,
-    content,
+    content: result.toString(),
   } as Post
 
   return {
