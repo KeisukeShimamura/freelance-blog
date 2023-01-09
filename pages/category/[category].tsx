@@ -1,9 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
-import { Matter, Post } from '../types/post'
+import { Matter, Post } from '../../types/post'
 import fs from 'fs'
 import matter from 'gray-matter'
-import PostItemCard from '../components/post-item-card'
+import PostItemCard from '../../components/post-item-card'
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
   const files = fs.readdirSync('posts')

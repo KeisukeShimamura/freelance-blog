@@ -114,7 +114,7 @@ const Post = ({ post }: { post: Post }) => {
         <div className="space-x-2">
           {post.matter.categories.map((category) => (
             <span key={category}>
-              <Link href={`/${category}`}>{category}</Link>
+              <Link href={`/category/${category}`}>{category}</Link>
             </span>
           ))}
         </div>
