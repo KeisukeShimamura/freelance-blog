@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next'
-import Head from 'next/head'
 import fs from 'fs'
 import matter from 'gray-matter'
 import { Matter, Post } from '../types/post'

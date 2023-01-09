@@ -9,4 +9,5 @@ export type Matter = {
   date: string
   description: string
   image: string
+  categories: string[]
 }

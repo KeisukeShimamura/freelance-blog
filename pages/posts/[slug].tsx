@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import React, { createElement, Fragment, ReactNode } from 'react'
+import React, { createElement, Fragment } from 'react'
 import { Matter, Post } from '../../types/post'
 import fs from 'fs'
 import matter from 'gray-matter'
@@ -16,6 +16,7 @@ import rehypeParse from 'rehype-parse'
 import rehypeReact from 'rehype-react'
 import MyLink from '../../components/my-link'
 import MyImage from '../../components/my-image'
+import Link from 'next/link'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -109,6 +110,14 @@ const Post = ({ post }: { post: Post }) => {
           />
         </div>
         <h1 className="mt-12">{post.matter.title}</h1>
+        <span>{post.matter.date}</span>
+        <div className="space-x-2">
+          {post.matter.categories.map((category) => (
+            <span key={category}>
+              <Link href={`/${category}`}>{category}</Link>
+            </span>
+          ))}
+        </div>
         {toReactNode(post.content)}
       </div>
     </>
