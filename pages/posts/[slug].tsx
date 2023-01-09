@@ -1,9 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import React from 'react'
+import React, { createElement, Fragment, ReactNode } from 'react'
 import { Matter, Post } from '../../types/post'
 import fs from 'fs'
 import matter from 'gray-matter'
-import { marked } from 'marked'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import { unified } from 'unified'
@@ -13,6 +12,10 @@ import rehypeStringify from 'rehype-stringify'
 import remarkToc from 'remark-toc'
 import rehypeSlug from 'rehype-slug'
 import remarkPrism from 'remark-prism'
+import rehypeParse from 'rehype-parse'
+import rehypeReact from 'rehype-react'
+import MyLink from '../../components/my-link'
+import MyImage from '../../components/my-image'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -28,9 +31,9 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     .use(remarkToc, {
       heading: '目次',
     })
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
-    .use(rehypeStringify)
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content)
 
   const post = {
@@ -59,6 +62,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
+const toReactNode = (content: string) => {
+  return unified()
+    .use(rehypeParse, {
+      fragment: true,
+    })
+    .use(rehypeReact, {
+      createElement,
+      Fragment,
+      components: {
+        a: MyLink,
+        img: MyImage,
+      },
+    })
+    .processSync(content).result
+}
+
 const Post = ({ post }: { post: Post }) => {
   return (
     <>
@@ -80,7 +99,7 @@ const Post = ({ post }: { post: Post }) => {
           ],
         }}
       />
-      <main className="prose prose-lg max-w-none">
+      <div className="prose prose-lg max-w-none">
         <div className="border">
           <Image
             src={`/${post.matter.image}`}
@@ -90,8 +109,8 @@ const Post = ({ post }: { post: Post }) => {
           />
         </div>
         <h1 className="mt-12">{post.matter.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: marked(post.content) }}></div>
-      </main>
+        {toReactNode(post.content)}
+      </div>
     </>
   )
 }

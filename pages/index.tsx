@@ -31,13 +31,11 @@ export const getStaticProps: GetStaticProps<{ posts: Post[] }> = () => {
 export default function Home({ posts }: { posts: Post[] }) {
   return (
     <>
-      <main>
-        <div className="grid grid-cols-3 gap-4">
-          {posts.map((post) => (
-            <PostItemCard key={post.slug} post={post} />
-          ))}
-        </div>
-      </main>
+      <div className="grid grid-cols-3 gap-4">
+        {posts.map((post) => (
+          <PostItemCard key={post.slug} post={post} />
+        ))}
+      </div>
     </>
   )
 }
