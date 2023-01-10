@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { createElement, Fragment } from 'react'
-import { Matter, Post } from '../../types/post'
+import { Matter, Post } from '../../../types/post'
 import fs from 'fs'
 import matter from 'gray-matter'
 import Image from 'next/image'
@@ -14,16 +14,19 @@ import rehypeSlug from 'rehype-slug'
 import remarkPrism from 'remark-prism'
 import rehypeParse from 'rehype-parse'
 import rehypeReact from 'rehype-react'
-import MyLink from '../../components/my-link'
-import MyImage from '../../components/my-image'
+import MyLink from '../../../components/my-link'
+import MyImage from '../../../components/my-image'
 import Link from 'next/link'
 import { visit } from 'unist-util-visit'
+import { getPost, getPosts } from '../../../lib/post'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
 ) => {
-  const file = fs.readFileSync(`posts/${context.params?.slug}.md`, 'utf-8')
-  const { data, content } = matter(file)
+  const { matter, content } = getPost(
+    `posts/${context.params?.category}`,
+    `${context.params?.slug}.md`
+  )
 
   const result = await unified()
     .use(remarkParse)
@@ -40,7 +43,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     .process(content)
 
   const post = {
-    matter: data as Matter,
+    matter: matter as Matter,
     slug: context.params?.slug,
     content: result.toString(),
   } as Post
@@ -53,10 +56,11 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const files = fs.readdirSync('posts')
-  const paths = files.map((fileName) => ({
+  const posts = getPosts('posts')
+  const paths = posts.map((post) => ({
     params: {
-      slug: fileName.replace(/\.md$/, ''),
+      category: post.matter.category,
+      slug: post.slug,
     },
   }))
   return {
@@ -133,11 +137,9 @@ const Post = ({ post }: { post: Post }) => {
         <h1 className="mt-12">{post.matter.title}</h1>
         <span>{post.matter.date}</span>
         <div className="space-x-2">
-          {post.matter.categories.map((category) => (
-            <span key={category}>
-              <Link href={`/category/${category}`}>{category}</Link>
-            </span>
-          ))}
+          <Link href={`/category/${post.matter.category}/page/1`}>
+            {post.matter.category}
+          </Link>
         </div>
         {toReactNode(post.content)}
       </div>

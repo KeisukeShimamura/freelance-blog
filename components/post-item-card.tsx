@@ -7,7 +7,7 @@ import { Post } from '../types/post'
 const PostItemCard = ({ post }: { post: Post }) => {
   // format(new Date(post.matter.date), 'yyyy年MM月dd日')
   return (
-    <Link href={`/posts/${post.slug}`}>
+    <Link href={`/category/${post.matter.category}/${post.slug}`}>
       <div className="border rounded-lg shadow">
         <Image
           src={`/${post.matter.image}`}
