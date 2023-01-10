@@ -29,10 +29,24 @@ export const getPost = (path: string, fileName: string) => {
   const slug = fileName.replace(/\.md$/, '')
   const file = fs.readFileSync(`${path}/${fileName}`, 'utf-8')
   const { data, content } = matter(file)
-  data.category = path.split('/')[1]
+  data.category = path.split('/').length > 1 ? path.split('/')[1] : ''
   return {
     matter: data as Matter,
     slug,
     content,
   }
+}
+
+export const getCategories = (path: string) => {
+  const dirs = fs.readdirSync(path, { withFileTypes: true })
+  const categoris = dirs
+    .map((dir) => {
+      if (dir.isFile()) {
+        return
+      }
+      return dir.name
+    })
+    .filter((e) => typeof e !== 'undefined')
+
+  return categoris
 }

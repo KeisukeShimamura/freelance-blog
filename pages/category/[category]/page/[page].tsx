@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
 import { Post } from '../../../../types/post'
 import PostItemCard from '../../../../components/post-item-card'
-import { getPosts } from '../../../../lib/post'
+import { getCategories, getPosts } from '../../../../lib/post'
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
   const category = context.params?.category
@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const categories = ['test', 'programing']
+  const categories = getCategories('posts')
   const paths = categories.map((category) => ({
     params: {
       category,

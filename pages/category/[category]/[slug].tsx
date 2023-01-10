@@ -1,8 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { createElement, Fragment } from 'react'
 import { Matter, Post } from '../../../types/post'
-import fs from 'fs'
-import matter from 'gray-matter'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import { unified } from 'unified'
