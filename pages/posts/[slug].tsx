@@ -17,6 +17,7 @@ import rehypeReact from 'rehype-react'
 import MyLink from '../../components/my-link'
 import MyImage from '../../components/my-image'
 import Link from 'next/link'
+import { visit } from 'unist-util-visit'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -35,6 +36,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
     .use(rehypeStringify, { allowDangerousHtml: true })
+    .use(customCode)
     .process(content)
 
   const post = {
@@ -77,6 +79,25 @@ const toReactNode = (content: string) => {
       },
     })
     .processSync(content).result
+}
+
+const customCode = () => {
+  return (tree: any) => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName === 'p' && node.children[0].type === 'text') {
+        if (node.children[0].value.startsWith('[comment]')) {
+          node.tagName = 'div'
+          node.properties = {
+            className: ['font-bold px-4 py-2 bg-orange-500 text-white'],
+          }
+          node.children[0].value = node.children[0].value.replace(
+            /\[\/?comment\]/g,
+            ''
+          )
+        }
+      }
+    })
+  }
 }
 
 const Post = ({ post }: { post: Post }) => {
