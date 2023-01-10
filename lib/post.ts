@@ -2,7 +2,11 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import { Matter, Post } from '../types/post'
 
-export const getPosts = (path: string) => {
+export const getPosts = (
+  path: string,
+  pageSize?: number,
+  currentPage?: number
+) => {
   const dirs = fs.readdirSync(path, { withFileTypes: true })
   let posts: Post[] = []
   dirs.map((dir) => {
@@ -22,7 +26,21 @@ export const getPosts = (path: string) => {
     new Date(post1.matter.date) > new Date(post2.matter.date) ? -1 : 1
   )
 
-  return sortedPosts
+  if (pageSize === undefined || currentPage === undefined) {
+    return {
+      posts: sortedPosts,
+      count: posts.length,
+    }
+  }
+
+  const slicedPosts = sortedPosts.slice(
+    pageSize * (currentPage - 1),
+    pageSize * currentPage
+  )
+  return {
+    posts: slicedPosts,
+    count: posts.length,
+  }
 }
 
 export const getPost = (path: string, fileName: string) => {

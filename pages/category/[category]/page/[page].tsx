@@ -3,33 +3,60 @@ import React from 'react'
 import { Post } from '../../../../types/post'
 import PostItemCard from '../../../../components/post-item-card'
 import { getCategories, getPosts } from '../../../../lib/post'
+import Pagination from '../../../../components/pagination'
+
+const PAGE_SIZE = 9
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
   const category = context.params?.category
-  const posts = getPosts(`posts/${category}`)
+  const currentPage = Number(context.params?.page)
+  const { posts, count } = getPosts(`posts/${category}`, PAGE_SIZE, currentPage)
+  const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
+    .map((v, i) => i + 1)
+    .map((i) => {
+      return i
+    })
 
   return {
     props: {
       posts,
+      pages,
+      currentPage,
     },
   }
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
   const categories = getCategories('posts')
-  const paths = categories.map((category) => ({
-    params: {
-      category,
-      page: '1',
-    },
-  }))
+  let paths: any[] = []
+  categories.map((category) => {
+    const { count } = getPosts(`posts/${category}`)
+    Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
+      .map((v, i) => i + 1)
+      .map((i) => {
+        paths.push({
+          params: {
+            category,
+            page: i.toString(),
+          },
+        })
+      })
+  })
   return {
     paths,
     fallback: false,
   }
 }
 
-const Category = ({ posts }: { posts: Post[] }) => {
+const Category = ({
+  posts,
+  pages,
+  currentPage,
+}: {
+  posts: Post[]
+  pages: number[]
+  currentPage: number
+}) => {
   return (
     <>
       <div className="grid grid-cols-3 gap-4">
@@ -37,6 +64,11 @@ const Category = ({ posts }: { posts: Post[] }) => {
           <PostItemCard key={post.slug} post={post} />
         ))}
       </div>
+      <Pagination
+        pages={pages}
+        category={posts[0].matter.category}
+        currentPage={currentPage}
+      />
     </>
   )
 }

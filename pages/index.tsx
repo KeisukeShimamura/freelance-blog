@@ -4,7 +4,7 @@ import PostItemCard from '../components/post-item-card'
 import { getPosts } from '../lib/post'
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = () => {
-  const posts = getPosts('posts')
+  const { posts } = getPosts('posts')
 
   return {
     props: {
