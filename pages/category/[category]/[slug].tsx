@@ -141,6 +141,12 @@ const Post = ({ post }: { post: Post }) => {
             {post.frontMatter.category}
           </Link>
         </div>
+        <div className="space-x-2">
+          タグ
+          {post.frontMatter.tags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
         {toReactNode(post.content)}
       </div>
     </>

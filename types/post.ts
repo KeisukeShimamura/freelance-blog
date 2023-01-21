@@ -10,4 +10,5 @@ export type FrontMatter = {
   description: string
   image: string
   category: string
+  tags: string[]
 }
