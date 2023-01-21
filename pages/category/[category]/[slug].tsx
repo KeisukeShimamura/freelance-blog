@@ -3,6 +3,8 @@ import React, { createElement, Fragment } from 'react'
 import { FrontMatter, Post } from '../../../types/post'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
+import Link from 'next/link'
+import { getPost, getPosts } from '../../../lib/post'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
@@ -14,9 +16,8 @@ import rehypeParse from 'rehype-parse'
 import rehypeReact from 'rehype-react'
 import MyLink from '../../../components/my-link'
 import MyImage from '../../../components/my-image'
-import Link from 'next/link'
 import { visit } from 'unist-util-visit'
-import { getPost, getPosts } from '../../../lib/post'
+import remarkGfm from 'remark-gfm'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -34,6 +35,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     .use(remarkToc, {
       heading: '目次',
     })
+    .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
     .use(rehypeStringify, { allowDangerousHtml: true })
@@ -73,11 +75,11 @@ const toReactNode = (content: string) => {
       fragment: true,
     })
     .use(rehypeReact, {
-      createElement,
-      Fragment,
+      createElement: React.createElement,
+      Fragment: React.Fragment,
       components: {
-        a: MyLink,
-        img: MyImage,
+        a: (props: any) => <MyLink {...props} />,
+        //img: (props: any) => <MyImage {...props} />,
       },
     })
     .processSync(content).result
@@ -110,7 +112,7 @@ const Post = ({ post }: { post: Post }) => {
         description={post.frontMatter.description}
         openGraph={{
           type: 'website',
-          url: `http:localhost:3000/posts/${post.slug}`,
+          url: `http://localhost:3000/posts/${post.slug}`,
           title: post.frontMatter.title,
           description: post.frontMatter.description,
           images: [
