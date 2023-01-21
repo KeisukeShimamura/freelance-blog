@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { createElement, Fragment } from 'react'
-import { Matter, Post } from '../../../types/post'
+import { FrontMatter, Post } from '../../../types/post'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import { unified } from 'unified'
@@ -21,7 +21,7 @@ import { getPost, getPosts } from '../../../lib/post'
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
 ) => {
-  const { matter, content } = getPost(
+  const { frontMatter, content } = getPost(
     `posts/${context.params?.category}`,
     `${context.params?.slug}.md`
   )
@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     .process(content)
 
   const post = {
-    matter: matter as Matter,
+    frontMatter: frontMatter as FrontMatter,
     slug: context.params?.slug,
     content: result.toString(),
   } as Post
@@ -57,7 +57,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { posts } = getPosts('posts')
   const paths = posts.map((post) => ({
     params: {
-      category: post.matter.category,
+      category: post.frontMatter.category,
       slug: post.slug,
     },
   }))
@@ -106,19 +106,19 @@ const Post = ({ post }: { post: Post }) => {
   return (
     <>
       <NextSeo
-        title={post.matter.title}
-        description={post.matter.description}
+        title={post.frontMatter.title}
+        description={post.frontMatter.description}
         openGraph={{
           type: 'website',
           url: `http:localhost:3000/posts/${post.slug}`,
-          title: post.matter.title,
-          description: post.matter.description,
+          title: post.frontMatter.title,
+          description: post.frontMatter.description,
           images: [
             {
-              url: `https://localhost:3000/${post.matter.image}`,
+              url: `https://localhost:3000/${post.frontMatter.image}`,
               width: 1200,
               height: 700,
-              alt: post.matter.title,
+              alt: post.frontMatter.title,
             },
           ],
         }}
@@ -126,17 +126,17 @@ const Post = ({ post }: { post: Post }) => {
       <div className="prose prose-lg max-w-none">
         <div className="border">
           <Image
-            src={`/${post.matter.image}`}
+            src={`/${post.frontMatter.image}`}
             width={1200}
             height={700}
-            alt={post.matter.title}
+            alt={post.frontMatter.title}
           />
         </div>
-        <h1 className="mt-12">{post.matter.title}</h1>
-        <span>{post.matter.date}</span>
+        <h1 className="mt-12">{post.frontMatter.title}</h1>
+        <span>{post.frontMatter.date}</span>
         <div className="space-x-2">
-          <Link href={`/category/${post.matter.category}/page/1`}>
-            {post.matter.category}
+          <Link href={`/category/${post.frontMatter.category}/page/1`}>
+            {post.frontMatter.category}
           </Link>
         </div>
         {toReactNode(post.content)}

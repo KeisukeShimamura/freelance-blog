@@ -1,6 +1,6 @@
 import fs from 'fs'
 import matter from 'gray-matter'
-import { Matter, Post } from '../types/post'
+import { FrontMatter, Post } from '../types/post'
 
 export const getPosts = (
   path: string,
@@ -23,7 +23,7 @@ export const getPosts = (
   })
 
   const sortedPosts = posts.sort((post1, post2) =>
-    new Date(post1.matter.date) > new Date(post2.matter.date) ? -1 : 1
+    new Date(post1.frontMatter.date) > new Date(post2.frontMatter.date) ? -1 : 1
   )
 
   if (pageSize === undefined || currentPage === undefined) {
@@ -49,7 +49,7 @@ export const getPost = (path: string, fileName: string) => {
   const { data, content } = matter(file)
   data.category = path.split('/').length > 1 ? path.split('/')[1] : ''
   return {
-    matter: data as Matter,
+    frontMatter: data as FrontMatter,
     slug,
     content,
   }

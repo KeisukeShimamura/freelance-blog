@@ -5,19 +5,19 @@ import React from 'react'
 import { Post } from '../types/post'
 
 const PostItemCard = ({ post }: { post: Post }) => {
-  // format(new Date(post.matter.date), 'yyyy年MM月dd日')
+  // TODO format(new Date(post.matter.date), 'yyyy年MM月dd日')
   return (
-    <Link href={`/category/${post.matter.category}/${post.slug}`}>
+    <Link href={`/category/${post.frontMatter.category}/${post.slug}`}>
       <div className="border rounded-lg shadow">
         <Image
-          src={`/${post.matter.image}`}
+          src={`/${post.frontMatter.image}`}
           width={1200}
           height={700}
-          alt={post.matter.title}
+          alt={post.frontMatter.title}
         />
         <div className="p-4">
-          <h2>{post.matter.title}</h2>
-          <p className="text-slate-500 text-sm">{post.matter.date}</p>
+          <h2>{post.frontMatter.title}</h2>
+          <p className="text-slate-500 text-sm">{post.frontMatter.date}</p>
         </div>
       </div>
     </Link>

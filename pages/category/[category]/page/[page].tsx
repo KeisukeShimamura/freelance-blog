@@ -66,7 +66,7 @@ const Category = ({
       </div>
       <Pagination
         pages={pages}
-        category={posts[0].matter.category}
+        category={posts[0].frontMatter.category}
         currentPage={currentPage}
       />
     </>

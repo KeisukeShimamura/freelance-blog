@@ -1,10 +1,10 @@
 export type Post = {
   slug: string
-  matter: Matter
+  frontMatter: FrontMatter
   content: string
 }
 
-export type Matter = {
+export type FrontMatter = {
   title: string
   date: string
   description: string
