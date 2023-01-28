@@ -4,10 +4,11 @@ import { getPosts } from '../lib/post'
 import PostItemCardList from '../components/post-item-card-list'
 import { useState } from 'react'
 import classNames from 'classnames'
+import Link from 'next/link'
+import PostItemCassette from '../components/post-item-cassette'
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = () => {
   const { posts } = getPosts('posts', 3, 1)
-
   return {
     props: {
       posts,
@@ -38,7 +39,7 @@ export default function Home({ posts }: { posts: Post[] }) {
               className={classNames(
                 'w-full inline-block p-4 border-b-2 rounded-t-lg',
                 tabIndex == 1
-                  ? 'text-emerald-600 border-emerald-600 active'
+                  ? 'font-bold text-emerald-600 border-emerald-600 active'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               )}
               onClick={() => clickTab(1)}
@@ -52,7 +53,7 @@ export default function Home({ posts }: { posts: Post[] }) {
               className={classNames(
                 'w-full inline-block p-4 border-b-2 rounded-t-lg',
                 tabIndex == 2
-                  ? 'text-emerald-600 border-emerald-600 active'
+                  ? 'font-bold text-emerald-600 border-emerald-600 active'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               )}
               onClick={() => clickTab(2)}
@@ -66,7 +67,7 @@ export default function Home({ posts }: { posts: Post[] }) {
               className={classNames(
                 'w-full inline-block p-4 border-b-2 rounded-t-lg',
                 tabIndex == 3
-                  ? 'text-emerald-600 border-emerald-600 active'
+                  ? 'font-bold text-emerald-600 border-emerald-600 active'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               )}
               onClick={() => clickTab(3)}
@@ -76,6 +77,21 @@ export default function Home({ posts }: { posts: Post[] }) {
           </li>
         </ul>
       </div>
+      <section>
+        {posts.map((post) => (
+          <div key={post.slug} className="my-6">
+            <PostItemCassette post={post} />
+          </div>
+        ))}
+        <div className="text-center mt-12">
+          <Link
+            href={`/category/programing/page/1`}
+            className="inline-block border-t-2 border-b-2 px-24 py-2 border-gray-600 hover:bg-gray-600 hover:text-white"
+          >
+            もっと見る
+          </Link>
+        </div>
+      </section>
     </>
   )
 }

@@ -4,6 +4,7 @@ import { Post } from '../../../../types/post'
 import PostItemCard from '../../../../components/post-item-card'
 import { getCategories, getPosts } from '../../../../lib/post'
 import Pagination from '../../../../components/pagination'
+import PostItemCassette from '../../../../components/post-item-cassette'
 
 const PAGE_SIZE = 9
 
@@ -59,16 +60,18 @@ const Category = ({
 }) => {
   return (
     <>
-      <div className="grid grid-cols-3 gap-4">
+      <section>
         {posts.map((post) => (
-          <PostItemCard key={post.slug} post={post} />
+          <div key={post.slug} className="my-6">
+            <PostItemCassette post={post} />
+          </div>
         ))}
-      </div>
-      <Pagination
-        pages={pages}
-        category={posts[0].frontMatter.category}
-        currentPage={currentPage}
-      />
+        <Pagination
+          pages={pages}
+          category={posts[0].frontMatter.category}
+          currentPage={currentPage}
+        />
+      </section>
     </>
   )
 }
