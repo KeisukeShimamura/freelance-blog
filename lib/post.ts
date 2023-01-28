@@ -54,3 +54,40 @@ export const getPost = (fileName: string) => {
 export const getCategories = () => {
   return ['freelance', 'programing', 'hokkaido']
 }
+
+export const getPostCountByTag = () => {
+  let postCounts: any = [
+    {
+      category: 'freelance',
+      categoryName: 'フリーランスエンジニア',
+      postCount: 0,
+      postCountByTag: [],
+    },
+    {
+      category: 'programing',
+      categoryName: 'プログラミング',
+      postCount: 0,
+      postCountByTag: [],
+    },
+    {
+      category: 'hokkaido',
+      categoryName: '北海道フリーランス生活',
+      postCount: 0,
+      postCountByTag: [],
+    },
+  ]
+  const files = fs.readdirSync('posts')
+  files.map((file) => {
+    let post = getPost(file)
+    postCounts.map((postCount: any) => {
+      if (post.frontMatter.category == postCount.category) {
+        postCount.postCount += 1
+        post.frontMatter.tags.map((tag) => {
+          // TODO タグごとの件数を追加
+        })
+      }
+    })
+  })
+
+  return postCounts
+}

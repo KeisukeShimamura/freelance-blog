@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
-import Sidebar from './sidebar'
+import SidebarMenu from './sidebar-menu'
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
@@ -23,7 +23,7 @@ const Header = () => {
           <Link href="/">LOGO</Link>
         </div>
       </header>
-      <Sidebar isOpen={isSidebarOpen} closeModal={closeModal} />
+      <SidebarMenu isOpen={isSidebarOpen} closeModal={closeModal} />
     </>
   )
 }
