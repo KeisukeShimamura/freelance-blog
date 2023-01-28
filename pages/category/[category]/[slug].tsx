@@ -22,10 +22,7 @@ import remarkGfm from 'remark-gfm'
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
 ) => {
-  const { frontMatter, content } = getPost(
-    `posts/${context.params?.category}`,
-    `${context.params?.slug}.md`
-  )
+  const { frontMatter, content } = getPost(`${context.params?.slug}.md`)
 
   const result = await unified()
     .use(remarkParse)
@@ -56,7 +53,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { posts } = getPosts('posts')
+  const { posts } = getPosts()
   const paths = posts.map((post) => ({
     params: {
       category: post.frontMatter.category,

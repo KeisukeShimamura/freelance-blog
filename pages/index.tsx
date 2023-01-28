@@ -8,7 +8,7 @@ import Link from 'next/link'
 import PostItemCassette from '../components/post-item-cassette'
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = () => {
-  const { posts } = getPosts('posts', 3, 1)
+  const { posts } = getPosts(undefined, 3, 1)
   return {
     props: {
       posts,

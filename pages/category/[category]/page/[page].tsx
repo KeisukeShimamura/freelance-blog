@@ -6,12 +6,12 @@ import { getCategories, getPosts } from '../../../../lib/post'
 import Pagination from '../../../../components/pagination'
 import PostItemCassette from '../../../../components/post-item-cassette'
 
-const PAGE_SIZE = 9
+const PAGE_SIZE = 10
 
 export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
   const category = context.params?.category
   const currentPage = Number(context.params?.page)
-  const { posts, count } = getPosts(`posts/${category}`, PAGE_SIZE, currentPage)
+  const { posts, count } = getPosts(`${category}`, PAGE_SIZE, currentPage)
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
     .map((v, i) => i + 1)
     .map((i) => {
@@ -28,10 +28,10 @@ export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const categories = getCategories('posts')
+  const categories = getCategories()
   let paths: any[] = []
   categories.map((category) => {
-    const { count } = getPosts(`posts/${category}`)
+    const { count } = getPosts(`${category}`)
     Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
       .map((v, i) => i + 1)
       .map((i) => {

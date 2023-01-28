@@ -3,37 +3,34 @@ import matter from 'gray-matter'
 import { FrontMatter, Post } from '../types/post'
 
 export const getPosts = (
-  path: string,
+  category?: string,
   pageSize?: number,
   currentPage?: number
 ) => {
-  const dirs = fs.readdirSync(path, { withFileTypes: true })
   let posts: Post[] = []
-  dirs.map((dir) => {
-    if (dir.isFile()) {
-      posts.push(getPost(path, dir.name))
-    } else {
-      const files = fs.readdirSync(`${path}/${dir.name}`, {
-        withFileTypes: true,
-      })
-      files.map((file) => {
-        posts.push(getPost(`${path}/${dir.name}`, file.name))
-      })
-    }
+  const files = fs.readdirSync('posts')
+  files.map((file) => {
+    posts.push(getPost(file))
   })
 
-  const sortedPosts = posts.sort((post1, post2) =>
+  posts = posts.sort((post1, post2) =>
     new Date(post1.frontMatter.date) > new Date(post2.frontMatter.date) ? -1 : 1
   )
 
+  if (category !== undefined) {
+    posts = posts.filter((post) => {
+      return post.frontMatter.category == category
+    })
+  }
+
   if (pageSize === undefined || currentPage === undefined) {
     return {
-      posts: sortedPosts,
+      posts: posts,
       count: posts.length,
     }
   }
 
-  const slicedPosts = sortedPosts.slice(
+  const slicedPosts = posts.slice(
     pageSize * (currentPage - 1),
     pageSize * currentPage
   )
@@ -43,11 +40,10 @@ export const getPosts = (
   }
 }
 
-export const getPost = (path: string, fileName: string) => {
+export const getPost = (fileName: string) => {
   const slug = fileName.replace(/\.md$/, '')
-  const file = fs.readFileSync(`${path}/${fileName}`, 'utf-8')
+  const file = fs.readFileSync(`posts/${fileName}`, 'utf-8')
   const { data, content } = matter(file)
-  data.category = path.split('/').length > 1 ? path.split('/')[1] : ''
   return {
     frontMatter: data as FrontMatter,
     slug,
@@ -55,16 +51,6 @@ export const getPost = (path: string, fileName: string) => {
   }
 }
 
-export const getCategories = (path: string) => {
-  const dirs = fs.readdirSync(path, { withFileTypes: true })
-  const categoris = dirs
-    .map((dir) => {
-      if (dir.isFile()) {
-        return
-      }
-      return dir.name
-    })
-    .filter((e) => typeof e !== 'undefined')
-
-  return categoris
+export const getCategories = () => {
+  return ['freelance', 'programing', 'hokkaido']
 }
