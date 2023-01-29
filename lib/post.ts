@@ -14,7 +14,10 @@ export const getPosts = (
   })
 
   posts = posts.sort((post1, post2) =>
-    new Date(post1.frontMatter.date) > new Date(post2.frontMatter.date) ? -1 : 1
+    new Date(post1.frontMatter.createdAt) >
+    new Date(post2.frontMatter.createdAt)
+      ? -1
+      : 1
   )
 
   if (category !== undefined) {

@@ -6,7 +6,8 @@ export type Post = {
 
 export type FrontMatter = {
   title: string
-  date: string
+  createdAt: string
+  updatedAt: string
   description: string
   image: string
   category: string

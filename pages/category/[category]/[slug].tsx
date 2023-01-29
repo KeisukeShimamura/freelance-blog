@@ -132,7 +132,8 @@ const Post = ({ post }: { post: Post }) => {
           />
         </div>
         <h1 className="mt-12">{post.frontMatter.title}</h1>
-        <span>{post.frontMatter.date}</span>
+        <span>{post.frontMatter.createdAt}</span>
+        <span>{post.frontMatter.updatedAt}</span>
         <div className="space-x-2">
           <Link href={`/category/${post.frontMatter.category}/page/1`}>
             {post.frontMatter.category}

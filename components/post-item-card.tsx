@@ -19,7 +19,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
           {post.frontMatter.category}
         </span>
         <div className="p-4">
-          <p className="text-slate-300 text-sm">{post.frontMatter.date}</p>
+          <p className="text-slate-300 text-sm">{post.frontMatter.createdAt}</p>
           <h3>{post.frontMatter.title}</h3>
         </div>
       </div>

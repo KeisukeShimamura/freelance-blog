@@ -27,7 +27,7 @@ const PostItemCassette = ({ post }: { post: Post }) => {
           <h3 className="font-bold mt-1 line-clamp-1">
             {post.frontMatter.title}
           </h3>
-          <p className="text-slate-300 text-sm">{post.frontMatter.date}</p>
+          <p className="text-slate-300 text-sm">{post.frontMatter.createdAt}</p>
           <p className="text-gray-600 text-sm line-clamp-2">
             {post.frontMatter.description}
           </p>
