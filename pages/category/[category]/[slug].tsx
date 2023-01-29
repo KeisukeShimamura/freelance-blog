@@ -18,6 +18,9 @@ import MyLink from '../../../components/my-link'
 import MyImage from '../../../components/my-image'
 import { visit } from 'unist-util-visit'
 import remarkGfm from 'remark-gfm'
+import { ArrowPathIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
+import MyH2 from '../../../components/my-h2'
+import MyH3 from '../../../components/my-h3'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -76,6 +79,8 @@ const toReactNode = (content: string) => {
       Fragment: React.Fragment,
       components: {
         a: (props: any) => <MyLink {...props} />,
+        h2: (props: any) => <MyH2 {...props} />,
+        h3: (props: any) => <MyH3 {...props} />,
         //img: (props: any) => <MyImage {...props} />,
       },
     })
@@ -96,6 +101,8 @@ const customCode = () => {
             ''
           )
         }
+      } else if (node.tagName === 'h2' && node.properties.id === '目次') {
+        console.log(node)
       }
     })
   }
@@ -122,29 +129,35 @@ const Post = ({ post }: { post: Post }) => {
           ],
         }}
       />
-      <div className="prose prose-lg max-w-none">
-        <div className="border">
-          <Image
-            src={`/${post.frontMatter.image}`}
-            width={1200}
-            height={700}
-            alt={post.frontMatter.title}
-          />
-        </div>
-        <h1 className="mt-12">{post.frontMatter.title}</h1>
-        <span>{post.frontMatter.createdAt}</span>
-        <span>{post.frontMatter.updatedAt}</span>
-        <div className="space-x-2">
-          <Link href={`/category/${post.frontMatter.category}/page/1`}>
-            {post.frontMatter.category}
-          </Link>
+      <div className="prose max-w-none">
+        <h1 className="mb-4">{post.frontMatter.title}</h1>
+        <div className="flex space-x-6 text-sm text-slate-400 mb-4">
+          <span>
+            <PencilSquareIcon className="w-4 h-4 inline-block mr-2" />
+            {post.frontMatter.createdAt}
+          </span>
+          <span>
+            <ArrowPathIcon className="w-4 h-4 inline-block mr-2" />
+            {post.frontMatter.updatedAt}
+          </span>
         </div>
         <div className="space-x-2">
-          タグ
           {post.frontMatter.tags.map((tag) => (
-            <span key={tag}>{tag}</span>
+            <span
+              key={tag}
+              className="bg-emerald-600 text-white font-bold px-2 py-0.5 text-sm rounded-lg inline-block"
+            >
+              {tag}
+            </span>
           ))}
         </div>
+        <Image
+          className="my-4"
+          src={`/${post.frontMatter.image}`}
+          width={1200}
+          height={700}
+          alt={post.frontMatter.title}
+        />
         {toReactNode(post.content)}
       </div>
     </>

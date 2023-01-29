@@ -16,14 +16,16 @@ const PostItemCassette = ({ post }: { post: Post }) => {
           />
         </div>
         <div className="ml-4 w-2/3 md:w-4/5">
-          {post.frontMatter.tags.map((tag) => (
-            <span
-              key={tag}
-              className="bg-emerald-600 text-white font-bold mr-3 px-2 py-0.5 text-sm rounded-lg inline-block"
-            >
-              {tag}
-            </span>
-          ))}
+          <div className="space-x-2">
+            {post.frontMatter.tags.map((tag) => (
+              <span
+                key={tag}
+                className="bg-emerald-600 text-white font-bold px-2 py-0.5 text-sm rounded-lg inline-block"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
           <h3 className="font-bold mt-1 line-clamp-1">
             {post.frontMatter.title}
           </h3>
