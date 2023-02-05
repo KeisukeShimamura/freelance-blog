@@ -22,6 +22,7 @@ import { ArrowPathIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import MyH2 from '../../../components/my-h2'
 import MyH3 from '../../../components/my-h3'
 import remarkFootnotes from 'remark-footnotes'
+import MyStrong from '../../../components/my-strong'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -84,6 +85,7 @@ const toReactNode = (content: string) => {
         a: (props: any) => <MyLink {...props} />,
         h2: (props: any) => <MyH2 {...props} />,
         h3: (props: any) => <MyH3 {...props} />,
+        strong: (props: any) => <MyStrong {...props} />,
         //img: (props: any) => <MyImage {...props} />,
       },
     })
@@ -94,19 +96,7 @@ const customCode = () => {
   return (tree: any) => {
     let isNextToc = false
     visit(tree, 'element', (node) => {
-      if (node.tagName === 'p' && node.children[0].type === 'text') {
-        // コメント
-        if (node.children[0].value.startsWith('[comment]')) {
-          node.tagName = 'div'
-          node.properties = {
-            className: ['font-bold px-4 py-2 bg-orange-500 text-white'],
-          }
-          node.children[0].value = node.children[0].value.replace(
-            /\[\/?comment\]/g,
-            ''
-          )
-        }
-      } else if (node.tagName === 'h2' && node.properties.id === '目次') {
+      if (node.tagName === 'h2' && node.properties.id === '目次') {
         node.properties = {
           className: ['hidden'],
         }
