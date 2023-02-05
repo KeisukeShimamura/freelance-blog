@@ -34,6 +34,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     })
     .use(remarkToc, {
       heading: '目次',
+      tight: true,
     })
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
@@ -89,8 +90,10 @@ const toReactNode = (content: string) => {
 
 const customCode = () => {
   return (tree: any) => {
+    let isNextToc = false
     visit(tree, 'element', (node) => {
       if (node.tagName === 'p' && node.children[0].type === 'text') {
+        // コメント
         if (node.children[0].value.startsWith('[comment]')) {
           node.tagName = 'div'
           node.properties = {
@@ -102,7 +105,64 @@ const customCode = () => {
           )
         }
       } else if (node.tagName === 'h2' && node.properties.id === '目次') {
-        console.log(node)
+        node.properties = {
+          className: ['hidden'],
+        }
+        isNextToc = true
+      } else if (isNextToc) {
+        // 目次
+        node.properties = {
+          className: ['list-none pl-0'],
+        }
+        node.children.map((li: any) => {
+          if (li.tagName === 'li' && li.type === 'element') {
+            li.children.map((ele: any) => {
+              if (ele.tagName === 'a') {
+                ele.properties = {
+                  className: ['no-underline font-bold'],
+                  href: ele.properties.href,
+                }
+                ele.children[0].value = '▼ ' + ele.children[0].value
+              } else if (ele.tagName === 'ul') {
+                // 2階層目
+                ele.properties = {
+                  className: ['list-none'],
+                }
+                ele.children.map((li: any) => {
+                  if (li.tagName === 'li' && li.type === 'element') {
+                    li.properties = {
+                      className: ['border-b border-slate-400'],
+                    }
+                    li.children.map((a: any) => {
+                      if (a.tagName === 'a') {
+                        a.properties = {
+                          className: ['no-underline'],
+                          href: a.properties.href,
+                        }
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+        })
+        node.children = [
+          {
+            type: 'element',
+            tagName: 'summary',
+            properties: {
+              className: ['text-center'],
+            },
+            children: [{ type: 'text', value: '目次' }],
+          },
+          Object.assign({}, node),
+        ]
+        node.tagName = 'details'
+        node.properties = {
+          className: ['bg-[#F9FDFA] px-6 py-2 border rounded-lg'],
+        }
+        isNextToc = false
       }
     })
   }
