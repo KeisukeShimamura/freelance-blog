@@ -23,6 +23,7 @@ import MyH2 from '../../../components/my-h2'
 import MyH3 from '../../../components/my-h3'
 import remarkFootnotes from 'remark-footnotes'
 import MyStrong from '../../../components/my-strong'
+import MyAttention from '../../../components/my-attention'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -86,6 +87,7 @@ const toReactNode = (content: string) => {
         h2: (props: any) => <MyH2 {...props} />,
         h3: (props: any) => <MyH3 {...props} />,
         strong: (props: any) => <MyStrong {...props} />,
+        sub: (props: any) => <MyAttention {...props} />,
         //img: (props: any) => <MyImage {...props} />,
       },
     })
@@ -161,6 +163,38 @@ const customCode = () => {
       ) {
         // 脚注
         node.children[0].children[0].value = '脚注'
+      } else if (node.tagName === 'p' && node.children[0].type === 'text') {
+        if (node.children[0].value.startsWith('[alert]')) {
+          // アラート
+          node.tagName = 'sub'
+          node.properties = {
+            type: 'alert',
+          }
+          node.children[0].value = node.children[0].value.replace(
+            /\[\/?alert\]/g,
+            ''
+          )
+        } else if (node.children[0].value.startsWith('[check]')) {
+          // チェック
+          node.tagName = 'sub'
+          node.properties = {
+            type: 'check',
+          }
+          node.children[0].value = node.children[0].value.replace(
+            /\[\/?check\]/g,
+            ''
+          )
+        } else if (node.children[0].value.startsWith('[info]')) {
+          // インフォ
+          node.tagName = 'sub'
+          node.properties = {
+            type: 'info',
+          }
+          node.children[0].value = node.children[0].value.replace(
+            /\[\/?info\]/g,
+            ''
+          )
+        }
       }
     })
   }
