@@ -21,6 +21,7 @@ import remarkGfm from 'remark-gfm'
 import { ArrowPathIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
 import MyH2 from '../../../components/my-h2'
 import MyH3 from '../../../components/my-h3'
+import remarkFootnotes from 'remark-footnotes'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -29,6 +30,7 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
 
   const result = await unified()
     .use(remarkParse)
+    .use(remarkFootnotes, { inlineNotes: false })
     .use(remarkPrism, {
       plugins: ['line-numbers'],
     })
@@ -163,6 +165,12 @@ const customCode = () => {
           className: ['bg-[#F9FDFA] px-6 py-2 border rounded-lg'],
         }
         isNextToc = false
+      } else if (
+        node.tagName === 'section' &&
+        node.properties.dataFootnotes === true
+      ) {
+        // 脚注
+        node.children[0].children[0].value = '脚注'
       }
     })
   }
