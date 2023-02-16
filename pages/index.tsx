@@ -52,22 +52,22 @@ export default function Home({
           <li className="w-1/3">
             <button
               className={classNames(
-                'w-full inline-block p-4 border-b-2 rounded-t-lg',
+                'w-full inline-block border-b-2 h-12 rounded-t-lg',
                 tabIndex == 1
-                  ? 'font-bold text-emerald-600 border-emerald-600 active'
+                  ? 'font-bold text-indigo-500 border-indigo-500 active'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               )}
               onClick={() => clickTab(1)}
             >
-              フリーランスエンジニア
+              フリーランス
             </button>
           </li>
           <li className="w-1/3">
             <button
               className={classNames(
-                'w-full inline-block p-4 border-b-2 rounded-t-lg',
+                'w-full inline-block border-b-2 h-12 rounded-t-lg text-xs sm:text-sm',
                 tabIndex == 2
-                  ? 'font-bold text-emerald-600 border-emerald-600 active'
+                  ? 'font-bold text-indigo-500 border-indigo-500 active'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               )}
               onClick={() => clickTab(2)}
@@ -78,25 +78,25 @@ export default function Home({
           <li className="w-1/3">
             <button
               className={classNames(
-                'w-full inline-block p-4 border-b-2 rounded-t-lg',
+                'w-full inline-block border-b-2 h-12  rounded-t-lg',
                 tabIndex == 3
-                  ? 'font-bold text-emerald-600 border-emerald-600 active'
+                  ? 'font-bold text-indigo-500 border-indigo-500 active'
                   : 'border-transparent hover:text-gray-600 hover:border-gray-300'
               )}
               onClick={() => clickTab(3)}
             >
-              北海道フリーランス生活
+              北海道生活
             </button>
           </li>
         </ul>
       </div>
       {tabIndex == 1 && (
         <section>
-          {freelancePosts.map((post) => (
-            <div key={post.slug} className="my-6">
-              <PostItemCassette post={post} />
-            </div>
-          ))}
+          <div className="space-y-8">
+            {freelancePosts.map((post) => (
+              <PostItemCassette post={post} key={post.slug} />
+            ))}
+          </div>
           <div className="text-center mt-12">
             <Link
               href={`/category/freelance/page/1`}
@@ -109,11 +109,11 @@ export default function Home({
       )}
       {tabIndex == 2 && (
         <section>
-          {programingPosts.map((post) => (
-            <div key={post.slug} className="my-6">
-              <PostItemCassette post={post} />
-            </div>
-          ))}
+          <div className="space-y-8">
+            {programingPosts.map((post) => (
+              <PostItemCassette post={post} key={post.slug} />
+            ))}
+          </div>
           <div className="text-center mt-12">
             <Link
               href={`/category/programing/page/1`}
@@ -126,11 +126,11 @@ export default function Home({
       )}
       {tabIndex == 3 && (
         <section>
-          {hokkaidoPosts.map((post) => (
-            <div key={post.slug} className="my-6">
-              <PostItemCassette post={post} />
-            </div>
-          ))}
+          <div className="space-y-8">
+            {hokkaidoPosts.map((post) => (
+              <PostItemCassette post={post} key={post.slug} />
+            ))}
+          </div>
           <div className="text-center mt-12">
             <Link
               href={`/category/hokkaido/page/1`}
