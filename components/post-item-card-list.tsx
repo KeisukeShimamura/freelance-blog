@@ -13,15 +13,17 @@ const PostItemCardList = ({
 }) => {
   return (
     <>
-      <section className="mb-12">
-        <div className="text-center">
-          <h2 className="text-xl">{title}</h2>
-          <span className="text-xs text-slate-300">{subTitle}</span>
-        </div>
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mt-4">
-          {posts.map((post) => (
-            <PostItemCard key={post.slug} post={post} />
-          ))}
+      <section className="text-gray-600 body-font">
+        <div className="container px-2 pt-8 pb-16 mx-auto">
+          <h2 className="text-2xl text-center">{title}</h2>
+          <span className="text-sm text-gray-400 text-center block mb-4">
+            {subTitle}
+          </span>
+          <div className="flex flex-wrap -m-4">
+            {posts.map((post) => (
+              <PostItemCard post={post} key={post.slug} />
+            ))}
+          </div>
         </div>
       </section>
     </>
