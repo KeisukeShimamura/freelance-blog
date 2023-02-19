@@ -1,5 +1,6 @@
 import { NextSeo } from 'next-seo'
 import React from 'react'
+import BreadCrumbs from '../components/breadcrumbs'
 
 const Privacy = () => {
   return (
@@ -7,6 +8,17 @@ const Privacy = () => {
       <NextSeo
         title="プライバシーポリシー"
         description="当ブログのプライバシーポリシーについて記載しているページです。"
+      />
+      <BreadCrumbs
+        lists={[
+          {
+            title: 'ホーム',
+            path: '/',
+          },
+          {
+            title: 'プライバシーポリシー',
+          },
+        ]}
       />
       <section className="py-16">
         <h1 className="text-center text-2xl mb-4">プライバシーポリシー</h1>

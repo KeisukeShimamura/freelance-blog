@@ -5,6 +5,8 @@ import PostItemCard from '../../../../components/post-item-card'
 import { getCategories, getPosts } from '../../../../lib/post'
 import Pagination from '../../../../components/pagination'
 import PostItemCassette from '../../../../components/post-item-cassette'
+import BreadCrumbs from '../../../../components/breadcrumbs'
+import { NextSeo } from 'next-seo'
 
 const PAGE_SIZE = 10
 
@@ -17,12 +19,15 @@ export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
     .map((i) => {
       return i
     })
+  const categoryName = posts[0].frontMatter.categoryName
 
   return {
     props: {
       posts,
       pages,
       currentPage,
+      category,
+      categoryName,
     },
   }
 }
@@ -53,14 +58,34 @@ const Category = ({
   posts,
   pages,
   currentPage,
+  category,
+  categoryName,
 }: {
   posts: Post[]
   pages: number[]
   currentPage: number
+  category: string
+  categoryName: string
 }) => {
   return (
     <>
-      <section>
+      <NextSeo
+        title={categoryName}
+        description={`${categoryName}の記事一覧ページにです。`}
+      />
+      <BreadCrumbs
+        lists={[
+          {
+            title: 'ホーム',
+            path: '/',
+          },
+          {
+            title: categoryName,
+            path: `/category/${category}/page/1`,
+          },
+        ]}
+      />
+      <section className="py-8">
         {posts.map((post) => (
           <div key={post.slug} className="my-6">
             <PostItemCassette post={post} />

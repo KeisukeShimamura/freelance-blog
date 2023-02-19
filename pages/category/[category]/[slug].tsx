@@ -24,6 +24,7 @@ import MyH3 from '../../../components/my-h3'
 import remarkFootnotes from 'remark-footnotes'
 import MyStrong from '../../../components/my-strong'
 import MyAttention from '../../../components/my-attention'
+import BreadCrumbs from '../../../components/breadcrumbs'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -221,7 +222,22 @@ const Post = ({ post }: { post: Post }) => {
           ],
         }}
       />
-      <div className="prose max-w-none">
+      <BreadCrumbs
+        lists={[
+          {
+            title: 'ホーム',
+            path: '/',
+          },
+          {
+            title: post.frontMatter.categoryName,
+            path: `/category/${post.frontMatter.category}/page/1`,
+          },
+          {
+            title: post.frontMatter.title,
+          },
+        ]}
+      />
+      <div className="prose max-w-none py-8">
         <h1 className="mb-4">{post.frontMatter.title}</h1>
         <div className="flex space-x-6 text-sm text-slate-400 mb-4">
           <span>

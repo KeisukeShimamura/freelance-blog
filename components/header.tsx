@@ -43,9 +43,6 @@ const Header = () => {
             >
               北海道生活
             </Link>
-            <Link className="mr-5 hover:text-gray-900" href={`/contact`}>
-              お問い合わせ
-            </Link>
           </nav>
         </div>
       </header>

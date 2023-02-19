@@ -2,6 +2,7 @@ import { NextSeo } from 'next-seo'
 import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import BreadCrumbs from '../components/breadcrumbs'
 
 type FormState = {
   name: string
@@ -47,6 +48,17 @@ const Contact = () => {
       <NextSeo
         title="お問い合わせ"
         description="当ブログのお問い合わせフォームです。"
+      />
+      <BreadCrumbs
+        lists={[
+          {
+            title: 'ホーム',
+            path: '/',
+          },
+          {
+            title: 'お問い合わせ',
+          },
+        ]}
       />
       <section className="py-16">
         <div className="flex flex-col text-center w-full mb-12">
