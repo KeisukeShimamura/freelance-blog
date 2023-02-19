@@ -13,7 +13,7 @@ const MyH2 = ({
   return (
     <h2
       id={id}
-      className={classNames('border-b border-emerald-600 pl-2 pb-1', className)}
+      className={classNames('border-b border-indigo-500 pl-2 pb-1', className)}
     >
       {children}
     </h2>

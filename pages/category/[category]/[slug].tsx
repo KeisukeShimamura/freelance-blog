@@ -237,7 +237,7 @@ const Post = ({ post }: { post: Post }) => {
           {post.frontMatter.tags.map((tag) => (
             <span
               key={tag}
-              className="bg-emerald-600 text-white font-bold px-2 py-0.5 text-sm rounded-lg inline-block"
+              className="bg-indigo-500 text-white font-bold px-2 py-0.5 text-sm rounded-lg inline-block"
             >
               {tag}
             </span>
