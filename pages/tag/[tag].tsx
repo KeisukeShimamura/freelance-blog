@@ -1,48 +1,49 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
-import React, { ReactElement } from 'react'
-import { Category, Post } from '../../types/post'
-import PostItemCard from '../../components/post-item-card'
-import { getCategories, getPosts } from '../../lib/post'
-import Pagination from '../../components/pagination'
 import { NextSeo } from 'next-seo'
-import { NextPageWithLayout } from '../_app'
+import { ReactElement } from 'react'
 import Layout from '../../components/layout'
+import Pagination from '../../components/pagination'
+import PostItemCard from '../../components/post-item-card'
+import { getPosts, getTags } from '../../lib/post'
+import { Post, Tag } from '../../types/post'
+import { NextPageWithLayout } from '../_app'
 
 const PAGE_SIZE = 10
 
 export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
-  category: Category
+  tag: Tag
 }> = (context) => {
-  let category = {
+  let tag = {
     name: '',
-    path: context.params?.category,
-  } as Category
-  const { posts, count } = getPosts(`${category.path}`, undefined, PAGE_SIZE, 1)
+    path: context.params?.tag,
+  } as Tag
+  const { posts, count } = getPosts(undefined, `${tag.path}`, PAGE_SIZE, 1)
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
     .map((v, i) => i + 1)
     .map((i) => {
       return i
     })
-  category.name = posts[0].frontMatter.category.name
+  tag.name = posts[0].frontMatter.tags.find((t) => t.path === tag.path)
+    ?.name as string
 
   return {
     props: {
       posts,
       pages,
-      category,
+      tag,
     },
   }
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const categories = getCategories()
+  const tags = getTags()
   let paths: any[] = []
-  categories.map((category) => {
+  tags.map((tag) => {
     paths.push({
       params: {
-        category: category.path,
+        tag: tag.path,
       },
     })
   })
@@ -52,40 +53,32 @@ export const getStaticPaths: GetStaticPaths = () => {
   }
 }
 
-const CategoryHome: NextPageWithLayout<
+const TagHome: NextPageWithLayout<
   InferGetStaticPropsType<typeof getStaticProps>
-> = ({
-  posts,
-  pages,
-  category,
-}: {
-  posts: Post[]
-  pages: number[]
-  category: Category
-}) => {
+> = ({ posts, pages, tag }: { posts: Post[]; pages: number[]; tag: Tag }) => {
   return (
     <>
       <NextSeo
-        title={category.name}
-        description={`${category.name}の記事一覧ページにです。`}
+        title={tag.name}
+        description={`${tag.name}の記事一覧ページにです。`}
       />
       <section>
         <h1 className="border-b border-[#9DC8C8] mb-8 pb-4 font-bold text-lg">
-          {category.name}
+          {tag.name}
         </h1>
         <div className="flex flex-wrap">
           {posts.map((post) => (
             <PostItemCard post={post} key={post.slug} />
           ))}
         </div>
-        <Pagination pages={pages} currentPage={1} category={category.path} />
+        <Pagination pages={pages} currentPage={1} tag={tag.path} />
       </section>
     </>
   )
 }
 
-CategoryHome.getLayout = function getLayout(page: ReactElement) {
+TagHome.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>
 }
 
-export default CategoryHome
+export default TagHome

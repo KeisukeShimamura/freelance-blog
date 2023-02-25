@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
 }> = () => {
-  const { posts, count } = getPosts(undefined, PAGE_SIZE, 1)
+  const { posts, count } = getPosts(undefined, undefined, PAGE_SIZE, 1)
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
     .map((v, i) => i + 1)
     .map((i) => {

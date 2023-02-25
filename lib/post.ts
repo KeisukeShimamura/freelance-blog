@@ -4,6 +4,7 @@ import { Category, FrontMatter, Post, Tag } from '../types/post'
 
 export const getPosts = (
   category?: string,
+  tag?: string,
   pageSize?: number,
   currentPage?: number
 ) => {
@@ -23,6 +24,12 @@ export const getPosts = (
   if (category !== undefined) {
     posts = posts.filter((post) => {
       return post.frontMatter.category.path == category
+    })
+  }
+
+  if (tag !== undefined) {
+    posts = posts.filter((post) => {
+      return post.frontMatter.tags.some((t) => t.path == tag)
     })
   }
 

@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import React, { ReactElement } from 'react'
-import { Post } from '../../../../types/post'
+import { Category, Post } from '../../../../types/post'
 import PostItemCard from '../../../../components/post-item-card'
 import { getCategories, getPosts } from '../../../../lib/post'
 import Pagination from '../../../../components/pagination'
@@ -14,18 +14,25 @@ export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
   currentPage: number
-  category: string
-  categoryName: string
+  category: Category
 }> = (context) => {
-  const category = context.params?.category as string
+  let category: Category = {
+    name: '',
+    path: context.params?.category,
+  } as Category
   const currentPage = Number(context.params?.page)
-  const { posts, count } = getPosts(`${category}`, PAGE_SIZE, currentPage)
+  const { posts, count } = getPosts(
+    `${category.path}`,
+    undefined,
+    PAGE_SIZE,
+    currentPage
+  )
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
     .map((v, i) => i + 1)
     .map((i) => {
       return i
     })
-  const categoryName = posts[0].frontMatter.category.name
+  category.name = posts[0].frontMatter.category.name
 
   return {
     props: {
@@ -33,7 +40,6 @@ export const getStaticProps: GetStaticProps<{
       pages,
       currentPage,
       category,
-      categoryName,
     },
   }
 }
@@ -42,8 +48,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   const categories = getCategories()
   let paths: any[] = []
   categories.map((category) => {
-    const { count } = getPosts(`${category}`)
-    Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
+    Array.from(new Array(Math.ceil((category.count as number) / PAGE_SIZE)))
       .map((v, i) => i + 1)
       .map((i) => {
         if (i > 1) {
@@ -56,6 +61,7 @@ export const getStaticPaths: GetStaticPaths = () => {
         }
       })
   })
+
   return {
     paths,
     fallback: false,
@@ -69,23 +75,21 @@ const CategoryPage: NextPageWithLayout<
   pages,
   currentPage,
   category,
-  categoryName,
 }: {
   posts: Post[]
   pages: number[]
   currentPage: number
-  category: string
-  categoryName: string
+  category: Category
 }) => {
   return (
     <>
       <NextSeo
-        title={categoryName}
-        description={`${categoryName}の記事一覧ページにです。`}
+        title={category.name}
+        description={`${category.name}の記事一覧ページにです。`}
       />
       <section>
         <h1 className="border-b border-[#9DC8C8] mb-8 pb-4 font-bold text-lg">
-          {categoryName}
+          {category.name}
         </h1>
         <div className="flex flex-wrap">
           {posts.map((post) => (
@@ -95,7 +99,7 @@ const CategoryPage: NextPageWithLayout<
         <Pagination
           pages={pages}
           currentPage={currentPage}
-          category={category}
+          category={category.path}
         />
       </section>
     </>

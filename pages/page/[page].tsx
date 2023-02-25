@@ -15,7 +15,12 @@ export const getStaticProps: GetStaticProps<{
   currentPage: number
 }> = (context) => {
   const currentPage = Number(context.params?.page)
-  const { posts, count } = getPosts(undefined, PAGE_SIZE, currentPage)
+  const { posts, count } = getPosts(
+    undefined,
+    undefined,
+    PAGE_SIZE,
+    currentPage
+  )
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
     .map((v, i) => i + 1)
     .map((i) => {
@@ -32,7 +37,7 @@ export const getStaticProps: GetStaticProps<{
 
 export const getStaticPaths: GetStaticPaths = () => {
   let paths: any[] = []
-  const { count } = getPosts(undefined)
+  const { count } = getPosts()
   Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
     .map((v, i) => i + 1)
     .map((i) => {
