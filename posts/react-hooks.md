@@ -6,7 +6,7 @@ description: 'ReactHooksについて、っ買う'
 image: test.png
 categoryName: 'プログラミング'
 category: 'programing'
-tags: ['Next.js']
+tags: [['nextjs', 'Next.js']]
 ---
 
 リード文
