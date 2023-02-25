@@ -4,8 +4,7 @@ createdAt: '2023-01-09'
 updatedAt: '2023-01-10'
 description: 'ReactHooksについて、っ買う'
 image: test.png
-categoryName: 'プログラミング'
-category: 'programing'
+category: ['programing', 'プログラミング']
 tags: [['nextjs', 'Next.js']]
 ---
 

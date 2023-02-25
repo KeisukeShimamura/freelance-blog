@@ -22,7 +22,7 @@ export const getPosts = (
 
   if (category !== undefined) {
     posts = posts.filter((post) => {
-      return post.frontMatter.category == category
+      return post.frontMatter.category[0] == category
     })
   }
 
@@ -83,7 +83,7 @@ export const getPostCountByTag = () => {
   files.map((file) => {
     let post = getPost(file)
     postCounts.map((postCount: any) => {
-      if (post.frontMatter.category == postCount.category) {
+      if (post.frontMatter.category[0] == postCount.category[0]) {
         postCount.postCount += 1
         post.frontMatter.tags.map((tag) => {
           // TODO タグごとの件数を追加

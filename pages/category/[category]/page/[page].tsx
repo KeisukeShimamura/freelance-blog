@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps<{
     .map((i) => {
       return i
     })
-  const categoryName = posts[0].frontMatter.categoryName
+  const categoryName = posts[0].frontMatter.category[1]
 
   return {
     props: {

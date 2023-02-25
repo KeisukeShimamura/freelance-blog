@@ -10,7 +10,6 @@ export type FrontMatter = {
   updatedAt: string
   description: string
   image: string
-  category: string
-  categoryName: string
+  category: string[]
   tags: string[][]
 }
