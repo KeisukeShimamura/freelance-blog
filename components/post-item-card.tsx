@@ -13,7 +13,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
   return (
     <article className="sm:w-1/2 sm:px-2 mb-8">
       <div className="relative">
-        <Link href={`/category/${post.frontMatter.category}/${post.slug}`}>
+        <Link href={`/${post.slug}`}>
           <Image
             src={`/${post.frontMatter.image}`}
             width={900}
@@ -53,10 +53,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
         </div>
       </div>
       <h2 className="text-gray-900 my-2 hover:text-[#9DC8C8]">
-        <Link
-          href={`/category/${post.frontMatter.category}/${post.slug}`}
-          className="block"
-        >
+        <Link href={`/${post.slug}`} className="block">
           {post.frontMatter.title}
         </Link>
       </h2>

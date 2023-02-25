@@ -1,10 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { createElement, Fragment } from 'react'
-import { FrontMatter, Post } from '../../../types/post'
+import { FrontMatter, Post } from '../types/post'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import Link from 'next/link'
-import { getPost, getPosts } from '../../../lib/post'
+import { getPost, getPosts } from '../lib/post'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
@@ -14,17 +14,17 @@ import rehypeSlug from 'rehype-slug'
 import remarkPrism from 'remark-prism'
 import rehypeParse from 'rehype-parse'
 import rehypeReact from 'rehype-react'
-import MyLink from '../../../components/my-link'
-import MyImage from '../../../components/my-image'
+import MyLink from '../components/my-link'
+import MyImage from '../components/my-image'
 import { visit } from 'unist-util-visit'
 import remarkGfm from 'remark-gfm'
 import { ArrowPathIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
-import MyH2 from '../../../components/my-h2'
-import MyH3 from '../../../components/my-h3'
+import MyH2 from '../components/my-h2'
+import MyH3 from '../components/my-h3'
 import remarkFootnotes from 'remark-footnotes'
-import MyStrong from '../../../components/my-strong'
-import MyAttention from '../../../components/my-attention'
-import BreadCrumbs from '../../../components/breadcrumbs'
+import MyStrong from '../components/my-strong'
+import MyAttention from '../components/my-attention'
+import BreadCrumbs from '../components/breadcrumbs'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -230,7 +230,7 @@ const Post = ({ post }: { post: Post }) => {
           },
           {
             title: post.frontMatter.categoryName,
-            path: `/category/${post.frontMatter.category}/page/1`,
+            path: `/category/${post.frontMatter.category}`,
           },
           {
             title: post.frontMatter.title,
