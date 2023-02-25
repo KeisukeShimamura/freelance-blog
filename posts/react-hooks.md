@@ -5,7 +5,7 @@ updatedAt: '2023-01-10'
 description: 'ReactHooksについて、っ買う'
 image: test.png
 categoryString: ['programing', 'プログラミング']
-tags: [['nextjs', 'Next.js']]
+tagsString: [['nextjs', 'Next.js']]
 ---
 
 リード文

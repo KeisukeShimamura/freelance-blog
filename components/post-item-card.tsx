@@ -43,11 +43,11 @@ const PostItemCard = ({ post }: { post: Post }) => {
           <TagIcon className="w-4 h-4 inline-bolck mr-1" />
           {post.frontMatter.tags.map((tag, i) => (
             <Link
-              href={`/tag/${tag[0]}`}
-              key={tag[0]}
+              href={`/tag/${tag.path}`}
+              key={tag.path}
               className="hover:text-[#9DC8C8]"
             >
-              {tag[1]}
+              {tag.name}
             </Link>
           ))}
         </div>

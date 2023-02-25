@@ -12,7 +12,8 @@ export type FrontMatter = {
   image: string
   categoryString: string[]
   category: Category
-  tags: string[][]
+  tagsString: string[][]
+  tags: Tag[]
 }
 
 export type Category = {

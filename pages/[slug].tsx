@@ -239,10 +239,10 @@ const Post: NextPageWithLayout<
         <div className="space-x-2">
           {post.frontMatter.tags.map((tag) => (
             <span
-              key={tag[0]}
+              key={tag.path}
               className="bg-indigo-500 text-white font-bold px-2 py-0.5 text-sm rounded-lg inline-block"
             >
-              {tag[1]}
+              {tag.name}
             </span>
           ))}
         </div>
