@@ -1,12 +1,19 @@
 import Pagination from '../../components/pagination'
 import PostItemCard from '../../components/post-item-card'
 import { Post } from '../../types/post'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps, GetStaticPaths, InferGetStaticPropsType } from 'next'
 import { getPosts } from '../../lib/post'
+import { NextPageWithLayout } from '../_app'
+import Layout from '../../components/layout'
+import { ReactElement } from 'react'
 
 const PAGE_SIZE = 10
 
-export const getStaticProps: GetStaticProps<{ posts: Post[] }> = (context) => {
+export const getStaticProps: GetStaticProps<{
+  posts: Post[]
+  pages: number[]
+  currentPage: number
+}> = (context) => {
   const currentPage = Number(context.params?.page)
   const { posts, count } = getPosts(undefined, PAGE_SIZE, currentPage)
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
@@ -43,7 +50,9 @@ export const getStaticPaths: GetStaticPaths = () => {
   }
 }
 
-export default function Page({
+const Page: NextPageWithLayout<
+  InferGetStaticPropsType<typeof getStaticProps>
+> = ({
   posts,
   pages,
   currentPage,
@@ -51,7 +60,7 @@ export default function Page({
   posts: Post[]
   pages: number[]
   currentPage: number
-}) {
+}) => {
   return (
     <>
       <section>
@@ -65,3 +74,9 @@ export default function Page({
     </>
   )
 }
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>
+}
+
+export default Page

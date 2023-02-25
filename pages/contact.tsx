@@ -1,8 +1,9 @@
 import { NextSeo } from 'next-seo'
 import Link from 'next/link'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useForm } from 'react-hook-form'
-import BreadCrumbs from '../components/breadcrumbs'
+import Layout from '../components/layout'
+import { NextPageWithLayout } from './_app'
 
 type FormState = {
   name: string
@@ -10,7 +11,7 @@ type FormState = {
   message: string
 }
 
-const Contact = () => {
+const Contact: NextPageWithLayout = () => {
   const {
     register,
     handleSubmit,
@@ -48,17 +49,6 @@ const Contact = () => {
       <NextSeo
         title="お問い合わせ"
         description="当ブログのお問い合わせフォームです。"
-      />
-      <BreadCrumbs
-        lists={[
-          {
-            title: 'ホーム',
-            path: '/',
-          },
-          {
-            title: 'お問い合わせ',
-          },
-        ]}
       />
       <section className="py-16">
         <div className="flex flex-col text-center w-full mb-12">
@@ -152,6 +142,10 @@ const Contact = () => {
       </section>
     </>
   )
+}
+
+Contact.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>
 }
 
 export default Contact

@@ -1,9 +1,8 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import React, { createElement, Fragment } from 'react'
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
+import React, { ReactElement } from 'react'
 import { FrontMatter, Post } from '../types/post'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
-import Link from 'next/link'
 import { getPost, getPosts } from '../lib/post'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
@@ -24,7 +23,8 @@ import MyH3 from '../components/my-h3'
 import remarkFootnotes from 'remark-footnotes'
 import MyStrong from '../components/my-strong'
 import MyAttention from '../components/my-attention'
-import BreadCrumbs from '../components/breadcrumbs'
+import PostLayout from '../components/post-layout'
+import { NextPageWithLayout } from './_app'
 
 export const getStaticProps: GetStaticProps<{ post: Post }> = async (
   context
@@ -201,7 +201,9 @@ const customCode = () => {
   }
 }
 
-const Post = ({ post }: { post: Post }) => {
+const Post: NextPageWithLayout<
+  InferGetStaticPropsType<typeof getStaticProps>
+> = ({ post }: { post: Post }) => {
   return (
     <>
       <NextSeo
@@ -221,21 +223,6 @@ const Post = ({ post }: { post: Post }) => {
             },
           ],
         }}
-      />
-      <BreadCrumbs
-        lists={[
-          {
-            title: 'ホーム',
-            path: '/',
-          },
-          {
-            title: post.frontMatter.categoryName,
-            path: `/category/${post.frontMatter.category}`,
-          },
-          {
-            title: post.frontMatter.title,
-          },
-        ]}
       />
       <div className="prose max-w-none py-8">
         <h1 className="mb-4">{post.frontMatter.title}</h1>
@@ -270,6 +257,10 @@ const Post = ({ post }: { post: Post }) => {
       </div>
     </>
   )
+}
+
+Post.getLayout = function getLayout(page: ReactElement) {
+  return <PostLayout>{page}</PostLayout>
 }
 
 export default Post
