@@ -52,7 +52,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
           ))}
         </div>
       </div>
-      <h2 className="text-gray-900 my-1 hover:text-[#9DC8C8]">
+      <h2 className="text-gray-900 my-2 hover:text-[#9DC8C8]">
         <Link
           href={`/category/${post.frontMatter.category}/${post.slug}`}
           className="block"
@@ -60,7 +60,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
           {post.frontMatter.title}
         </Link>
       </h2>
-      <p className="text-gray-400 leading-relaxed mb-3 md:line-clamp-3 hidden md:block">
+      <p className="text-sm text-gray-400 leading-relaxed mb-3 md:line-clamp-3 hidden md:block">
         {post.frontMatter.description}
       </p>
     </article>
