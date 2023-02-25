@@ -55,7 +55,13 @@ export const getPost = (fileName: string) => {
 }
 
 export const getCategories = () => {
-  return ['freelance', 'programing', 'hokkaido']
+  let categories: any = []
+  const files = fs.readdirSync('posts')
+  files.map((file) => {
+    let post = getPost(file)
+  })
+
+  return ['freelance', 'programing']
 }
 
 export const getPostCountByTag = () => {
