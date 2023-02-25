@@ -4,7 +4,6 @@ import { Post } from '../../types/post'
 import PostItemCard from '../../components/post-item-card'
 import { getCategories, getPosts } from '../../lib/post'
 import Pagination from '../../components/pagination'
-import BreadCrumbs from '../../components/breadcrumbs'
 import { NextSeo } from 'next-seo'
 
 const PAGE_SIZE = 10
@@ -62,19 +61,10 @@ const Category = ({
         title={categoryName}
         description={`${categoryName}の記事一覧ページにです。`}
       />
-      <BreadCrumbs
-        lists={[
-          {
-            title: 'ホーム',
-            path: '/',
-          },
-          {
-            title: categoryName,
-            path: `/category/${category}/page/1`,
-          },
-        ]}
-      />
       <section>
+        <h1 className="border-b border-[#9DC8C8] mb-8 pb-4 font-bold text-lg">
+          {categoryName}
+        </h1>
         <div className="flex flex-wrap">
           {posts.map((post) => (
             <PostItemCard post={post} key={post.slug} />
