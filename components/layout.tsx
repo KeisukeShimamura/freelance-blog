@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       />
       <div className="flex-1 container my-6 flex flex-col lg:flex-row">
         <main className="w-full lg:w-2/3">{children}</main>
-        <aside className="w-full lg:w-1/3">
+        <aside className="w-full pl-0 mt-12 lg:mt-0 lg:pl-16 lg:w-1/3">
           <AboutMe />
         </aside>
       </div>

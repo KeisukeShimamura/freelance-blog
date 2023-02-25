@@ -11,7 +11,7 @@ import {
 
 const PostItemCard = ({ post }: { post: Post }) => {
   return (
-    <article className="sm:w-1/2 sm:px-2 my-4">
+    <article className="sm:w-1/2 sm:px-2 mb-8">
       <div className="relative">
         <Link href={`/category/${post.frontMatter.category}/${post.slug}`}>
           <Image
