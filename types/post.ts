@@ -10,6 +10,19 @@ export type FrontMatter = {
   updatedAt: string
   description: string
   image: string
-  category: string[]
+  categoryString: string[]
+  category: Category
   tags: string[][]
+}
+
+export type Category = {
+  name: string
+  path: string
+  count?: number
+}
+
+export type Tag = {
+  name: string
+  path: string
+  count?: number
 }

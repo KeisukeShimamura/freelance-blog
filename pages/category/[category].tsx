@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps<{
     .map((i) => {
       return i
     })
-  const categoryName = posts[0].frontMatter.category[1]
+  const categoryName = posts[0].frontMatter.category.name
 
   return {
     props: {
@@ -41,7 +41,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   categories.map((category) => {
     paths.push({
       params: {
-        category,
+        category: category.path,
       },
     })
   })
@@ -51,7 +51,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   }
 }
 
-const Category: NextPageWithLayout<
+const CategoryHome: NextPageWithLayout<
   InferGetStaticPropsType<typeof getStaticProps>
 > = ({
   posts,
@@ -85,8 +85,8 @@ const Category: NextPageWithLayout<
   )
 }
 
-Category.getLayout = function getLayout(page: ReactElement) {
+CategoryHome.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>
 }
 
-export default Category
+export default CategoryHome

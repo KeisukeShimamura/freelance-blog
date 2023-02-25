@@ -1,6 +1,6 @@
 import fs from 'fs'
 import matter from 'gray-matter'
-import { FrontMatter, Post } from '../types/post'
+import { Category, FrontMatter, Post } from '../types/post'
 
 export const getPosts = (
   category?: string,
@@ -22,7 +22,7 @@ export const getPosts = (
 
   if (category !== undefined) {
     posts = posts.filter((post) => {
-      return post.frontMatter.category[0] == category
+      return post.frontMatter.category.path == category
     })
   }
 
@@ -47,6 +47,10 @@ export const getPost = (fileName: string) => {
   const slug = fileName.replace(/\.md$/, '')
   const file = fs.readFileSync(`posts/${fileName}`, 'utf-8')
   const { data, content } = matter(file)
+  data.category = {
+    name: data.categoryString[1],
+    path: data.categoryString[0],
+  } as Category
   return {
     frontMatter: data as FrontMatter,
     slug,
@@ -55,13 +59,25 @@ export const getPost = (fileName: string) => {
 }
 
 export const getCategories = () => {
-  let categories: any = []
+  let categories: Category[] = []
   const files = fs.readdirSync('posts')
   files.map((file) => {
     let post = getPost(file)
+    let target = categories.find(
+      (c) => c.path === post.frontMatter.category.path
+    )
+    if (target) {
+      target.count = (target.count as number) + 1
+    } else {
+      categories.push({
+        name: post.frontMatter.category.name,
+        path: post.frontMatter.category.path,
+        count: 1,
+      })
+    }
   })
 
-  return ['freelance', 'programing']
+  return categories
 }
 
 export const getPostCountByTag = () => {
@@ -89,7 +105,7 @@ export const getPostCountByTag = () => {
   files.map((file) => {
     let post = getPost(file)
     postCounts.map((postCount: any) => {
-      if (post.frontMatter.category[0] == postCount.category[0]) {
+      if (post.frontMatter.category.path == postCount.category.path) {
         postCount.postCount += 1
         post.frontMatter.tags.map((tag) => {
           // TODO タグごとの件数を追加

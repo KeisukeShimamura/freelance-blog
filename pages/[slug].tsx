@@ -65,7 +65,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { posts } = getPosts()
   const paths = posts.map((post) => ({
     params: {
-      category: post.frontMatter.category[0],
+      category: post.frontMatter.category.path,
       slug: post.slug,
     },
   }))

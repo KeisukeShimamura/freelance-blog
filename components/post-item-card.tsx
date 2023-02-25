@@ -23,11 +23,11 @@ const PostItemCard = ({ post }: { post: Post }) => {
           />
         </Link>
         <Link
-          href={`/category/${post.frontMatter.category[0]}`}
+          href={`/category/${post.frontMatter.category.path}`}
           className="absolute bg-[#9DC8C8] text-white p-2 right-0 top-0 text-sm hover:opacity-90"
         >
           <FolderIcon className="w-5 h-5 inline-block mr-1" />
-          <span>{post.frontMatter.category[1]}</span>
+          <span>{post.frontMatter.category.name}</span>
         </Link>
       </div>
       <div className="flex flex-wrap text-gray-400 gap-x-3 items-center text-sm mt-3">

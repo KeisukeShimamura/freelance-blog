@@ -4,7 +4,7 @@ createdAt: '2023-01-09'
 updatedAt: '2023-01-10'
 description: 'Next.jsでmarkdownファイルを利用したブログの構築手順を解説しています。'
 image: test.png
-category: ['programing', 'プログラミング']
+categoryString: ['programing', 'プログラミング']
 tags: [['nextjs', 'Next.js'], ['blog', 'ブログ']]
 ---
 

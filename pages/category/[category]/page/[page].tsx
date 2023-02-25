@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps<{
     .map((i) => {
       return i
     })
-  const categoryName = posts[0].frontMatter.category[1]
+  const categoryName = posts[0].frontMatter.category.name
 
   return {
     props: {
@@ -49,7 +49,7 @@ export const getStaticPaths: GetStaticPaths = () => {
         if (i > 1) {
           paths.push({
             params: {
-              category,
+              category: category.path,
               page: i.toString(),
             },
           })
