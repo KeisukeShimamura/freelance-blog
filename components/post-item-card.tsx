@@ -12,14 +12,14 @@ import {
 const PostItemCard = ({ post }: { post: Post }) => {
   return (
     <article className="sm:w-1/2 sm:px-2 mb-8">
-      <div className="relative">
-        <Link href={`/${post.slug}`}>
+      <div className="relative overflow-hidden">
+        <Link href={`/${post.slug}`} className="">
           <Image
             src={`/${post.frontMatter.image}`}
             width={900}
             height={500}
             alt={post.frontMatter.title}
-            className="w-full object-cover object-center hover:scale-125"
+            className="w-full object-cover object-center hover:scale-125 ease-in duration-300"
           />
         </Link>
         <Link
