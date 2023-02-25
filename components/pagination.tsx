@@ -12,11 +12,11 @@ const Pagination = ({
   tag?: string
   currentPage: number
 }) => {
-  let baseUrl: string = '/'
+  let baseUrl: string = ''
   if (category !== undefined) {
-    baseUrl += `category/${category}`
+    baseUrl += `/category/${category}`
   } else if (tag !== undefined) {
-    baseUrl += `tag/${tag}`
+    baseUrl += `/tag/${tag}`
   }
   return (
     <div className="flex items-center space-x-1 mt-8">
