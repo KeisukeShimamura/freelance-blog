@@ -7,7 +7,7 @@ const Pagination = ({
   currentPage = 1,
 }: {
   pages: number[]
-  category: string
+  category?: string
   currentPage: number
 }) => {
   return (
@@ -15,7 +15,15 @@ const Pagination = ({
       {pages.map((page) => (
         <Link
           key={page}
-          href={`/category/${category}/page/${page}`}
+          href={
+            category
+              ? page > 1
+                ? `/category/${category}/page/${page}`
+                : `/category/${category}`
+              : page > 1
+              ? `/page/${page}`
+              : `/`
+          }
           className={`px-4 py-2 border hover:bg-black hover:text-white ${
             currentPage === page && 'bg-black text-white'
           }`}
