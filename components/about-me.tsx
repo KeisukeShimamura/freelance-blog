@@ -3,7 +3,7 @@ import React from 'react'
 const AboutMe = () => {
   return (
     <section className="">
-      <h2 className="border-b border-[#9DC8C8] font-bold mb-4">プロフィール</h2>
+      <h2 className="border-b border-primary font-bold mb-4">プロフィール</h2>
       <div className="flex flex-col items-center gap-4 text-xs">
         <div className="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
           <svg
@@ -32,7 +32,7 @@ const AboutMe = () => {
             href="https://github.com/KeisukeShimamura"
             target="_blank"
             rel="noreferrer"
-            className="font-bold hover:text-[#9DC8C8]"
+            className="font-bold hover:text-primary"
           >
             GitHub
           </a>{' '}
@@ -41,7 +41,7 @@ const AboutMe = () => {
             href="https://github.com/KeisukeShimamura"
             target="_blank"
             rel="noreferrer"
-            className="font-bold hover:text-[#9DC8C8]"
+            className="font-bold hover:text-primary"
           >
             Portfolio
           </a>

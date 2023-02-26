@@ -14,6 +14,22 @@ const Footer = () => {
     },
     { name: 'ブログ', path: 'blog' },
   ]
+  const categories = [
+    { name: 'フリーランス', path: 'freelance' },
+    {
+      name: 'プログラミング',
+      path: 'programing',
+    },
+    {
+      name: '北海道生活',
+      path: 'hokkaido',
+    },
+  ]
+  const bloglinks = [
+    { name: '当ブログについて', path: 'about' },
+    { name: 'プライバシーポリシー', path: 'privacy' },
+    { name: 'お問い合わせ', path: 'contact' },
+  ]
 
   return (
     <footer className="bg-gray-100">
@@ -21,75 +37,50 @@ const Footer = () => {
         <div className="flex flex-col gap-8 mt-8 lg:flex-row">
           <div className="flex flex-col w-full gap-8 lg:w-1/3">
             <div>
-              <h2 className="font-bold border-b border-[#9DC8C8] pb-2">
+              <h2 className="font-bold border-b border-primary pb-2">
                 カテゴリ
               </h2>
-              <ul className="mt-3 text-sm">
-                <li className="py-3 border-b border-gray-300">
-                  ・
-                  <Link
-                    href={`/category/freelance`}
-                    className="hover:text-[#9DC8C8]"
+              <ul className="mt-3 text-sm mx-2">
+                {categories.map((category) => (
+                  <li
+                    key={category.path}
+                    className="py-3 border-b border-gray-300"
                   >
-                    フリーランス
-                  </Link>
-                </li>
-                <li className="py-3 border-b border-gray-300">
-                  ・
-                  <Link
-                    href={`/category/programing`}
-                    className="hover:text-[#9DC8C8]"
-                  >
-                    プログラミング
-                  </Link>
-                </li>
-                <li className="py-3">
-                  ・
-                  <Link
-                    href={`/category/hokkaido`}
-                    className="hover:text-[#9DC8C8]"
-                  >
-                    北海道生活
-                  </Link>
-                </li>
+                    ・
+                    <Link
+                      href={`/category/${category.path}`}
+                      className="hover:text-primary"
+                    >
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
             <div>
-              <h2 className="font-bold border-b border-[#9DC8C8] pb-2">
+              <h2 className="font-bold border-b border-primary pb-2">
                 当ブログについて
               </h2>
-              <ul className="mt-3 text-sm">
-                <li className="py-3 border-b border-gray-300">
-                  ・
-                  <Link href={`/about`} className="hover:text-[#9DC8C8]">
-                    当ブログについて
-                  </Link>
-                </li>
-                <li className="py-3 border-b border-gray-300">
-                  ・
-                  <Link href={`/privacy`} className="hover:text-[#9DC8C8]">
-                    プライバシーポリシー
-                  </Link>
-                </li>{' '}
-                <li className="py-3">
-                  ・
-                  <Link href={`/contact`} className="hover:text-[#9DC8C8]">
-                    お問い合わせ
-                  </Link>
-                </li>
+              <ul className="mt-3 text-sm mx-2">
+                {bloglinks.map((link) => (
+                  <li key={link.path} className="py-3 border-b border-gray-300">
+                    ・
+                    <Link href={`/${link.path}`} className="hover:text-primary">
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
           <div className="w-full lg:w-1/3">
-            <h2 className="font-bold border-b border-[#9DC8C8] pb-2">
-              タグ一覧
-            </h2>
+            <h2 className="font-bold border-b border-primary pb-2">タグ一覧</h2>
             <div className="flex flex-row gap-4 mt-4">
               {tags.map((tag) => (
                 <Link
                   key={tag.path}
                   href={`/tag/${tag.path}`}
-                  className="border border-[#9DC8C8] text-[#9DC8C8] text-sm font-bold px-3 py-2 rounded hover:bg-[#9DC8C8] hover:text-white"
+                  className="border border-primary text-primary text-sm font-bold px-3 py-2 rounded hover:bg-primary hover:text-white"
                 >
                   {tag.name}
                 </Link>
@@ -97,7 +88,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="w-full lg:w-1/3">
-            <h2 className="font-bold border-b border-[#9DC8C8] pb-2">検索</h2>
+            <h2 className="font-bold border-b border-primary pb-2">検索</h2>
             <div className="mt-4 bg-white border border-gray-500 flex rounded items-center w-fit">
               <input
                 type="text"

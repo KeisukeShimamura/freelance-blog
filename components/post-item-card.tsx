@@ -24,7 +24,7 @@ const PostItemCard = ({ post }: { post: Post }) => {
         </Link>
         <Link
           href={`/category/${post.frontMatter.category.path}`}
-          className="absolute bg-[#9DC8C8] text-white p-2 right-0 top-0 text-sm hover:opacity-90"
+          className="absolute bg-primary text-white p-2 right-0 top-0 text-sm hover:opacity-90"
         >
           <FolderIcon className="w-5 h-5 inline-block mr-1" />
           <span>{post.frontMatter.category.name}</span>
@@ -45,14 +45,14 @@ const PostItemCard = ({ post }: { post: Post }) => {
             <Link
               href={`/tag/${tag.path}`}
               key={tag.path}
-              className="hover:text-[#9DC8C8]"
+              className="hover:text-primary"
             >
               {tag.name}
             </Link>
           ))}
         </div>
       </div>
-      <h2 className="text-gray-900 my-2 hover:text-[#9DC8C8]">
+      <h2 className="text-gray-900 my-2 hover:text-primary">
         <Link href={`/${post.slug}`} className="block">
           {post.frontMatter.title}
         </Link>

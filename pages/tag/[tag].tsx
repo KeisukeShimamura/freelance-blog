@@ -63,7 +63,7 @@ const TagHome: NextPageWithLayout<
         description={`${tag.name}の記事一覧ページにです。`}
       />
       <section>
-        <h1 className="border-b border-[#9DC8C8] mb-8 pb-4 font-bold text-lg">
+        <h1 className="border-b border-primary mb-8 pb-4 font-bold text-lg">
           {tag.name}
         </h1>
         <div className="flex flex-wrap">
