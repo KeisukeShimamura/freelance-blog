@@ -31,24 +31,29 @@ const PostItemCard = ({ post }: { post: Post }) => {
         </Link>
       </div>
       <div className="flex flex-wrap text-gray-400 gap-x-3 items-center text-sm mt-3">
-        <p>
-          <ArrowPathIcon className="w-4 h-4 inline-block mr-1" />
-          {post.frontMatter.updatedAt}
-        </p>
-        <p>
+        {post.frontMatter.updatedAt != post.frontMatter.createdAt && (
+          <p className="flex items-center">
+            <ArrowPathIcon className="w-4 h-4 inline-block mr-1" />
+            {post.frontMatter.updatedAt}
+          </p>
+        )}
+        <p className="flex items-center">
           <PencilSquareIcon className="w-4 h-4 inline-block mr-1" />
           {post.frontMatter.createdAt}
         </p>
         <div className="flex items-center">
           <TagIcon className="w-4 h-4 inline-bolck mr-1" />
           {post.frontMatter.tags.map((tag, i) => (
-            <Link
-              href={`/tag/${tag.path}`}
-              key={tag.path}
-              className="hover:text-primary"
-            >
-              {tag.name}
-            </Link>
+            <>
+              {i > 0 && <span className="mx-0.5">,</span>}
+              <Link
+                href={`/tag/${tag.path}`}
+                key={tag.path}
+                className="hover:text-primary"
+              >
+                {tag.name}
+              </Link>
+            </>
           ))}
         </div>
       </div>
