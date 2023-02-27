@@ -4,8 +4,8 @@ import { ReactElement } from 'react'
 import Layout from '../../components/layout'
 import Pagination from '../../components/pagination'
 import PostItemCard from '../../components/post-item-card'
-import { getPosts, getTags } from '../../lib/post'
-import { Post, Tag } from '../../types/post'
+import { getCategories, getPosts, getTags } from '../../lib/post'
+import { Category, Post, Tag } from '../../types/post'
 import { NextPageWithLayout } from '../_app'
 
 const PAGE_SIZE = 10
@@ -14,6 +14,8 @@ export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
   tag: Tag
+  tags: Tag[]
+  categories: Category[]
 }> = (context) => {
   let tag = {
     name: '',
@@ -28,11 +30,15 @@ export const getStaticProps: GetStaticProps<{
   tag.name = posts[0].frontMatter.tags.find((t) => t.path === tag.path)
     ?.name as string
 
+  const tags = getTags()
+  const categories = getCategories()
   return {
     props: {
       posts,
       pages,
       tag,
+      tags,
+      categories,
     },
   }
 }
@@ -77,8 +83,15 @@ const TagHome: NextPageWithLayout<
   )
 }
 
-TagHome.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+TagHome.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <Layout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </Layout>
+  )
 }
 
 export default TagHome

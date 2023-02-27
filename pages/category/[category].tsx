@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import React, { ReactElement } from 'react'
-import { Category, Post } from '../../types/post'
+import { Category, Post, Tag } from '../../types/post'
 import PostItemCard from '../../components/post-item-card'
-import { getCategories, getPosts } from '../../lib/post'
+import { getCategories, getPosts, getTags } from '../../lib/post'
 import Pagination from '../../components/pagination'
 import { NextSeo } from 'next-seo'
 import { NextPageWithLayout } from '../_app'
@@ -14,6 +14,8 @@ export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
   category: Category
+  tags: Tag[]
+  categories: Category[]
 }> = (context) => {
   let category = {
     name: '',
@@ -27,11 +29,15 @@ export const getStaticProps: GetStaticProps<{
     })
   category.name = posts[0].frontMatter.category.name
 
+  const tags = getTags()
+  const categories = getCategories()
   return {
     props: {
       posts,
       pages,
       category,
+      tags,
+      categories,
     },
   }
 }
@@ -84,8 +90,15 @@ const CategoryHome: NextPageWithLayout<
   )
 }
 
-CategoryHome.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+CategoryHome.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <Layout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </Layout>
+  )
 }
 
 export default CategoryHome

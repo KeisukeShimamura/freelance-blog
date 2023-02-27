@@ -4,11 +4,14 @@ import nextSeoConfig from '../next-seo.config'
 import { DefaultSeo } from 'next-seo'
 import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
-import { NextPage } from 'next'
+import { InferGetStaticPropsType, NextPage } from 'next'
 import { ReactElement, ReactNode } from 'react'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode
+  getLayout?: (
+    page: ReactElement,
+    pageProps: InferGetStaticPropsType<any>
+  ) => ReactNode
 }
 
 type AppPropsWithLayout = AppProps & {
@@ -22,6 +25,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <DefaultSeo {...nextSeoConfig} />
       <Component {...pageProps} />
-    </>
+    </>,
+    pageProps
   )
 }

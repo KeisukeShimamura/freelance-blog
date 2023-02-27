@@ -1,9 +1,9 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import React, { ReactElement } from 'react'
-import { FrontMatter, Post } from '../types/post'
+import { Category, FrontMatter, Post, Tag } from '../types/post'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
-import { getPost, getPosts } from '../lib/post'
+import { getCategories, getPost, getPosts, getTags } from '../lib/post'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
@@ -26,9 +26,11 @@ import MyAttention from '../components/my-attention'
 import PostLayout from '../components/post-layout'
 import { NextPageWithLayout } from './_app'
 
-export const getStaticProps: GetStaticProps<{ post: Post }> = async (
-  context
-) => {
+export const getStaticProps: GetStaticProps<{
+  post: Post
+  tags: Tag[]
+  categories: Category[]
+}> = async (context) => {
   const { frontMatter, content } = getPost(`${context.params?.slug}.md`)
 
   const result = await unified()
@@ -54,9 +56,13 @@ export const getStaticProps: GetStaticProps<{ post: Post }> = async (
     content: result.toString(),
   } as Post
 
+  const tags = getTags()
+  const categories = getCategories()
   return {
     props: {
       post,
+      tags,
+      categories,
     },
   }
 }
@@ -259,8 +265,15 @@ const Post: NextPageWithLayout<
   )
 }
 
-Post.getLayout = function getLayout(page: ReactElement) {
-  return <PostLayout>{page}</PostLayout>
+Post.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <PostLayout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </PostLayout>
+  )
 }
 
 export default Post

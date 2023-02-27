@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import React, { ReactElement } from 'react'
-import { Post, Tag } from '../../../../types/post'
+import { Category, Post, Tag } from '../../../../types/post'
 import PostItemCard from '../../../../components/post-item-card'
-import { getPosts, getTags } from '../../../../lib/post'
+import { getCategories, getPosts, getTags } from '../../../../lib/post'
 import Pagination from '../../../../components/pagination'
 import { NextSeo } from 'next-seo'
 import { NextPageWithLayout } from '../../../_app'
@@ -15,6 +15,8 @@ export const getStaticProps: GetStaticProps<{
   pages: number[]
   currentPage: number
   tag: Tag
+  tags: Tag[]
+  categories: Category[]
 }> = (context) => {
   let tag = {
     name: '',
@@ -35,12 +37,16 @@ export const getStaticProps: GetStaticProps<{
   tag.name = posts[0].frontMatter.tags.find((t) => t.path === tag.path)
     ?.name as string
 
+  const tags = getTags()
+  const categories = getCategories()
   return {
     props: {
       posts,
       pages,
       currentPage,
       tag,
+      tags,
+      categories,
     },
   }
 }
@@ -103,8 +109,15 @@ const TagPage: NextPageWithLayout<
   )
 }
 
-TagPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+TagPage.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <Layout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </Layout>
+  )
 }
 
 export default TagPage

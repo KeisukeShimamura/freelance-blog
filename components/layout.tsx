@@ -1,11 +1,20 @@
 import Image from 'next/image'
 import React, { ReactNode } from 'react'
+import { Category, Tag } from '../types/post'
 import AboutMe from './about-me'
 import Footer from './footer'
 import Header from './header'
 import Tags from './tags'
 
-const Layout = ({ children }: { children: ReactNode }) => {
+const Layout = ({
+  children,
+  tags,
+  categories,
+}: {
+  children: ReactNode
+  tags: Tag[]
+  categories: Category[]
+}) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -20,10 +29,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <main className="w-full lg:w-2/3">{children}</main>
         <aside className="w-full pl-0 mt-12 lg:mt-0 lg:pl-16 lg:w-1/3">
           <AboutMe />
-          <Tags />
+          <Tags tags={tags} />
         </aside>
       </div>
-      <Footer />
+      <Footer tags={tags} categories={categories} />
     </div>
   )
 }

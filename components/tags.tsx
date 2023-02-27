@@ -1,19 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
+import { Tag } from '../types/post'
 
-const Tags = () => {
-  const tags = [
-    {
-      name: 'Next.js',
-      path: 'nextjs',
-    },
-    {
-      name: '税金',
-      path: 'tax',
-    },
-    { name: 'ブログ', path: 'blog' },
-  ]
-
+const Tags = ({ tags }: { tags: Tag[] }) => {
   return (
     <section className="mt-8">
       <h2 className="border-b border-primary font-bold mb-4">タグ</h2>

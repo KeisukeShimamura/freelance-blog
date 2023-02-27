@@ -1,8 +1,8 @@
 import Pagination from '../../components/pagination'
 import PostItemCard from '../../components/post-item-card'
-import { Post } from '../../types/post'
+import { Category, Post, Tag } from '../../types/post'
 import { GetStaticProps, GetStaticPaths, InferGetStaticPropsType } from 'next'
-import { getPosts } from '../../lib/post'
+import { getCategories, getPosts, getTags } from '../../lib/post'
 import { NextPageWithLayout } from '../_app'
 import Layout from '../../components/layout'
 import { ReactElement } from 'react'
@@ -13,6 +13,8 @@ export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
   currentPage: number
+  tags: Tag[]
+  categories: Category[]
 }> = (context) => {
   const currentPage = Number(context.params?.page)
   const { posts, count } = getPosts(
@@ -26,11 +28,15 @@ export const getStaticProps: GetStaticProps<{
     .map((i) => {
       return i
     })
+  const tags = getTags()
+  const categories = getCategories()
   return {
     props: {
       posts,
       pages,
       currentPage,
+      tags,
+      categories,
     },
   }
 }
@@ -80,8 +86,15 @@ const Page: NextPageWithLayout<
   )
 }
 
-Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+Page.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <Layout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </Layout>
+  )
 }
 
 export default Page

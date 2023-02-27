@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { Post } from '../types/post'
-import { getPosts } from '../lib/post'
+import { Category, Post, Tag } from '../types/post'
+import { getCategories, getPosts, getTags } from '../lib/post'
 import PostItemCard from '../components/post-item-card'
 import Pagination from '../components/pagination'
 import { NextPageWithLayout } from './_app'
@@ -12,6 +12,8 @@ const PAGE_SIZE = 10
 export const getStaticProps: GetStaticProps<{
   posts: Post[]
   pages: number[]
+  tags: Tag[]
+  categories: Category[]
 }> = () => {
   const { posts, count } = getPosts(undefined, undefined, PAGE_SIZE, 1)
   const pages = Array.from(new Array(Math.ceil(count / PAGE_SIZE)))
@@ -19,10 +21,14 @@ export const getStaticProps: GetStaticProps<{
     .map((i) => {
       return i
     })
+  const tags = getTags()
+  const categories = getCategories()
   return {
     props: {
       posts,
       pages,
+      tags,
+      categories,
     },
   }
 }
@@ -44,8 +50,15 @@ const Home: NextPageWithLayout<
   )
 }
 
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+Home.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <Layout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </Layout>
+  )
 }
 
 export default Home

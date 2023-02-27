@@ -1,7 +1,24 @@
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 import Layout from '../components/layout'
+import { getCategories, getTags } from '../lib/post'
+import { Category, Tag } from '../types/post'
 import { NextPageWithLayout } from './_app'
+
+export const getStaticProps: GetStaticProps<{
+  tags: Tag[]
+  categories: Category[]
+}> = () => {
+  const tags = getTags()
+  const categories = getCategories()
+  return {
+    props: {
+      tags,
+      categories,
+    },
+  }
+}
 
 const Privacy: NextPageWithLayout = () => {
   return (
@@ -101,8 +118,15 @@ const Privacy: NextPageWithLayout = () => {
   )
 }
 
-Privacy.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
+Privacy.getLayout = function getLayout(
+  page: ReactElement,
+  pageProps: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  return (
+    <Layout tags={pageProps.tags} categories={pageProps.categories}>
+      {page}
+    </Layout>
+  )
 }
 
 export default Privacy

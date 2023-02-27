@@ -1,30 +1,15 @@
 import Link from 'next/link'
 import React from 'react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+import { Category, Tag } from '../types/post'
 
-const Footer = () => {
-  const tags = [
-    {
-      name: 'Next.js',
-      path: 'nextjs',
-    },
-    {
-      name: '税金',
-      path: 'tax',
-    },
-    { name: 'ブログ', path: 'blog' },
-  ]
-  const categories = [
-    { name: 'フリーランス', path: 'freelance' },
-    {
-      name: 'プログラミング',
-      path: 'programing',
-    },
-    {
-      name: '北海道生活',
-      path: 'hokkaido',
-    },
-  ]
+const Footer = ({
+  tags,
+  categories,
+}: {
+  tags: Tag[]
+  categories: Category[]
+}) => {
   const bloglinks = [
     { name: '当ブログについて', path: 'about' },
     { name: 'プライバシーポリシー', path: 'privacy' },
