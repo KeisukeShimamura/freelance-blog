@@ -37,6 +37,7 @@ const Footer = ({
                       className="hover:text-primary"
                     >
                       {category.name}
+                      <span className="ml-1">({category.count})</span>
                     </Link>
                   </li>
                 ))}
